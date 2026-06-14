@@ -309,6 +309,12 @@ const CAS = {
     ton: "professionnel, précis, nutritionnel — la fiabilité avant le lyrisme",
     ressources: "fiches nutritionnelles, données de performance anonymisées, charte D'Aucy, argumentaires existants",
     produit: "l'offre RHF « Cuisines de collectivités » D'Aucy (grands formats légumes et plats cuisinés)"
+  },
+  LIBRE: {
+    libre: true,
+    embleme: "✏️", nom: "Cas libre — votre action marketing",
+    accroche: "Travailler sur une action marketing réelle que votre équipe souhaite tester",
+    contexte: "", cible: "", objectif: "", ton: "", ressources: "", produit: ""
   }
 };
 
@@ -826,9 +832,31 @@ function echapper(t) {
 function $(sel, racine) { return (racine || document).querySelector(sel); }
 function $$(sel, racine) { return Array.from((racine || document).querySelectorAll(sel)); }
 
+/* Renvoie le cas courant. Pour le « cas libre », il est reconstruit à la volée
+   à partir des champs saisis par l'équipe (persistés dans etat.champs). */
+function casActuel() {
+  const base = CAS[etat.cas];
+  if (!base) return null;
+  if (!base.libre) return base;
+  const g = (k, repli) => { const v = (etat.champs["libre_" + k] || "").trim(); return v || repli; };
+  const nom = g("nom", "Mon action marketing");
+  return {
+    libre: true,
+    embleme: base.embleme,
+    nom: nom,
+    accroche: g("accroche", base.accroche),
+    contexte: g("contexte", "Action marketing définie par l'équipe."),
+    cible: g("cible", "à préciser par l'équipe"),
+    objectif: g("objectif", "à préciser par l'équipe"),
+    ton: g("ton", "à définir par l'équipe"),
+    ressources: g("ressources", "ressources internes de l'équipe"),
+    produit: g("produit", nom)
+  };
+}
+
 /* Substitue {variable:cle} par la donnée du cas choisi ; surligne le reste. */
 function preparerPrompt(modele, pourHtml) {
-  const cas = CAS[etat.cas];
+  const cas = casActuel();
   let txt = modele;
   if (cas) {
     txt = txt.replace(/\{variable:nomcas\}/g, cas.nom)
@@ -874,7 +902,7 @@ function majProgression() {
   const ident = [];
   if (etat.prenom) ident.push(etat.prenom);
   if (etat.equipe) ident.push("Équipe " + etat.equipe);
-  if (etat.cas && CAS[etat.cas]) ident.push(CAS[etat.cas].embleme + " " + CAS[etat.cas].nom);
+  const caId = casActuel(); if (caId) ident.push(caId.embleme + " " + caId.nom);
   $("#affichage-identite").textContent = ident.join(" · ");
 }
 
@@ -928,7 +956,7 @@ function enteteEtape(e, titreForce) {
     '</div><h2>' + echapper(titreForce || e.titre) + "</h2>";
 }
 function rappelCas() {
-  const c = CAS[etat.cas];
+  const c = casActuel();
   if (!c) return "";
   return '<details class="rappel-cas"><summary>Rappel de votre brief — ' + echapper(c.nom) + "</summary>" +
     "<p><strong>Contexte :</strong> " + echapper(c.contexte) + "</p>" +
@@ -1020,6 +1048,7 @@ function rendre(n) {
   else if (n === 2) {
     html = '<section class="carte">' + enteteEtape(e) +
       "<p>Voici le fil rouge des 2 jours : avec votre équipe, vous allez accompagner un <strong>lancement marketing D'Aucy</strong> de bout en bout. La plupart des ateliers s'appuieront sur ce brief — les prompts du carnet se personnaliseront automatiquement.</p>" +
+      "<p class=\"note\">Vous avez une action marketing réelle à tester ? Choisissez le <strong>cas libre</strong> et décrivez-la : le carnet s'adaptera à votre projet.</p>" +
       "<p><strong>Choisissez votre cas :</strong></p><div class=\"cas-grille\" role=\"group\" aria-label=\"Choix du cas\">" +
       Object.keys(CAS).map(k => {
         const c = CAS[k];
@@ -1235,8 +1264,23 @@ function brancherEvenements(n) {
   }));
   function afficherBrief() {
     const zb = $("#zone-brief"); if (!zb) return;
-    const c = CAS[etat.cas];
-    zb.innerHTML = !c ? "" : '<div class="brief-complet"><h3>' + c.embleme + " " + echapper(c.nom) + " — " + echapper(c.accroche) + "</h3><dl>" +
+    const brut = CAS[etat.cas];
+    if (!brut) { zb.innerHTML = ""; return; }
+    if (brut.libre) {
+      zb.innerHTML = '<div class="brief-complet"><h3>✏️ Votre cas libre</h3>' +
+        '<p class="aide-champ" style="margin:.2rem 0 .6rem">Décrivez l\'action marketing réelle que votre équipe souhaite tester. Ces informations personnaliseront automatiquement les prompts du carnet.</p>' +
+        champTexte("libre_nom", "Nom de l'action ou du produit *", "court", "Ex. : Lancement de la gamme de soupes bio « Saveurs du Potager »") +
+        champTexte("libre_produit", "Produit / offre concerné (facultatif)", "court", "Ex. : la nouvelle gamme de soupes bio en brique") +
+        champTexte("libre_cible", "Cible visée", "court", "Ex. : foyers urbains 25-40 ans, sensibles au bio et au local") +
+        champTexte("libre_objectif", "Objectif marketing", "court", "Ex. : créer la notoriété et générer les premiers essais en GMS") +
+        champTexte("libre_ton", "Ton de communication souhaité", "court", "Ex. : chaleureux, naturel, rassurant") +
+        champTexte("libre_contexte", "Contexte (facultatif)", "long", "Quelques phrases sur le marché, l'enjeu, la concurrence…") +
+        champTexte("libre_ressources", "Ressources disponibles (facultatif)", "court", "Ex. : charte graphique, fiches produit, données de vente") +
+        "</div>";
+      return;
+    }
+    const c = brut;
+    zb.innerHTML = '<div class="brief-complet"><h3>' + c.embleme + " " + echapper(c.nom) + " — " + echapper(c.accroche) + "</h3><dl>" +
       "<dt>Contexte</dt><dd>" + echapper(c.contexte) + "</dd>" +
       "<dt>Cible</dt><dd>" + echapper(c.cible) + "</dd>" +
       "<dt>Objectif</dt><dd>" + echapper(c.objectif) + "</dd>" +
@@ -1245,7 +1289,15 @@ function brancherEvenements(n) {
   }
   if (n === 2) afficherBrief();
   const bvc = $("#btn-valider-cas");
-  if (bvc) bvc.addEventListener("click", () => { if (etat.cas) validerEtape(2, "conf-2"); });
+  if (bvc) bvc.addEventListener("click", () => {
+    if (!etat.cas) return;
+    if (etat.cas === "LIBRE" && !(etat.champs["libre_nom"] || "").trim()) {
+      alert("Renseignez au moins le nom de votre action ou produit pour partir sur votre cas libre.");
+      const champNom = $("#champ_libre_nom"); if (champNom) champNom.focus();
+      return;
+    }
+    validerEtape(2, "conf-2");
+  });
 
   /* Boutons « copier le prompt » */
   $$(".btn-copier", zone).forEach(b => b.addEventListener("click", () => {
@@ -1287,7 +1339,7 @@ function brancherEvenements(n) {
    ========================================================================== */
 function exporterCarnet() {
   const z = $("#zone-impression");
-  const c = CAS[etat.cas];
+  const c = casActuel();
   const date = new Date().toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
   const logoEl = document.getElementById("logo-eureden");
   let h = (logoEl ? '<img src="' + logoEl.src + '" alt="Logo Eureden" style="height:42px;margin-bottom:8pt">' : "") +
