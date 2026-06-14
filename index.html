@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnet de bord — Formation IA &amp; Marketing · Eureden / D'Aucy France</title>
+<style>
+/* ==========================================================================
+   CARNET DE BORD NUMÉRIQUE — Formation « L'IA au service du Marketing »
+   Adaptation Eureden / D'Aucy France — Programme Cegos 9585 — Sowaycom
+   Charte : vert légume dominant, accent jaune maïs, blanc. Mobile-first.
+   2 jours — Sessions 15-16 juin & 6-7 juillet 2026.
+   ========================================================================== */
+:root{
+  --vert:#1b6e34;          /* vert principal */
+  --vert-fonce:#0f4d22;    /* variante foncée */
+  --vert-clair:#2b8c4a;    /* variante claire */
+  --jaune:#e8a90c;         /* accent jaune maïs */
+  --jaune-clair:#fdf4dd;   /* fond jaune très pâle */
+  --blanc:#ffffff;
+  --fond:#f4f8f4;          /* fond général */
+  --carte:#ffffff;
+  --texte:#1d271f;
+  --texte-doux:#4a5a4e;
+  --bord:#d3ddd4;
+  --valide:#1e7042;
+  --valide-clair:#e7f4ec;
+  --erreur:#a8321a;
+  --erreur-clair:#fdeeea;
+  --focus:#0f4d22;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:var(--fond);color:var(--texte);line-height:1.55;
+}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+  outline:3px solid var(--focus);outline-offset:2px;border-radius:4px;
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ----- En-tête fixe ----- */
+header.appbar{
+  position:sticky;top:0;z-index:50;background:var(--vert-fonce);color:var(--blanc);
+  padding:.65rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.25);
+}
+.appbar .ligne1{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.logo-chip{background:#fff;border-radius:8px;padding:.25rem .5rem;display:flex;align-items:center;flex:0 0 auto}
+.logo-chip img{height:30px;width:auto;display:block}
+.appbar .badge-op{
+  background:var(--jaune);color:#23290f;font-weight:700;font-size:.72rem;
+  padding:.2rem .55rem;border-radius:99px;letter-spacing:.05em;white-space:nowrap;
+}
+.appbar h1{font-size:1rem;font-weight:700;flex:1;min-width:200px}
+.appbar .qui{font-size:.8rem;opacity:.95}
+.btn-export{
+  background:#fff;color:var(--vert-fonce);border:none;font-weight:700;font-size:.8rem;
+  padding:.45rem .8rem;border-radius:6px;cursor:pointer;
+}
+.btn-export:hover{background:#e9f2ea}
+.progress-wrap{margin-top:.55rem}
+.progress-info{display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:.2rem;opacity:.95}
+.progress-bar{height:10px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:var(--jaune);border-radius:99px;transition:width .4s ease}
+
+/* ----- Navigation par étapes ----- */
+nav.etapes{
+  display:flex;gap:.4rem;overflow-x:auto;padding:.6rem 1rem;background:var(--carte);
+  border-bottom:1px solid var(--bord);position:sticky;top:auto;align-items:center;
+}
+nav.etapes .sep-jour{
+  flex:0 0 auto;font-size:.68rem;font-weight:800;color:var(--vert-fonce);
+  background:var(--jaune-clair);border:1px solid var(--jaune);border-radius:6px;
+  padding:.2rem .45rem;letter-spacing:.04em;white-space:nowrap;
+}
+nav.etapes button{
+  flex:0 0 auto;border:1.5px solid var(--bord);background:#fff;color:var(--texte);
+  border-radius:99px;padding:.35rem .8rem;font-size:.78rem;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+nav.etapes button.actif{background:var(--vert);border-color:var(--vert);color:#fff}
+nav.etapes button.fait{border-color:var(--valide);color:var(--valide)}
+nav.etapes button.fait.actif{background:var(--vert);color:#fff}
+nav.etapes button.fait::before{content:"✓ "}
+nav.etapes button.verrou{opacity:.45;cursor:not-allowed}
+nav.etapes button.verrou::before{content:"🔒 "}
+
+/* ----- Contenu ----- */
+main{max-width:880px;margin:0 auto;padding:1rem 1rem 4rem}
+.carte{
+  background:var(--carte);border:1px solid var(--bord);border-radius:14px;
+  padding:1.3rem 1.4rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(15,77,34,.06);
+}
+.etape-entete{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:.4rem}
+.horaire{
+  background:var(--vert-fonce);color:#fff;font-weight:700;font-size:.78rem;
+  padding:.2rem .6rem;border-radius:6px;
+}
+.duree{
+  background:var(--jaune-clair);color:#6e5408;border:1px solid var(--jaune);
+  font-weight:700;font-size:.78rem;padding:.18rem .55rem;border-radius:6px;
+}
+.jour-chip{
+  background:#eef5ef;color:var(--vert-fonce);border:1px solid var(--vert-clair);
+  font-weight:700;font-size:.78rem;padding:.18rem .55rem;border-radius:6px;
+}
+.cdc-chip{
+  background:#eef;color:#283593;border:1px solid #b9c0e8;
+  font-weight:700;font-size:.72rem;padding:.15rem .5rem;border-radius:6px;
+}
+h2{color:var(--vert-fonce);font-size:1.35rem;margin:.2rem 0 .8rem}
+h3{color:var(--vert-fonce);font-size:1.05rem;margin:1.1rem 0 .45rem}
+p{margin:.45rem 0}
+.objectif{
+  background:var(--valide-clair);border-left:4px solid var(--valide);
+  padding:.6rem .8rem;border-radius:0 8px 8px 0;margin:.7rem 0;font-size:.95rem;
+}
+ul.consigne{margin:.4rem 0 .4rem 1.2rem}
+ul.consigne li{margin:.45rem 0}
+.note{font-size:.85rem;color:var(--texte-doux)}
+
+/* ----- Rappel du cas ----- */
+details.rappel-cas{
+  background:var(--jaune-clair);border:1px solid var(--jaune);border-radius:10px;
+  padding:.6rem .9rem;margin:.7rem 0;
+}
+details.rappel-cas summary{font-weight:700;color:#6e5408;cursor:pointer}
+details.rappel-cas p{font-size:.9rem;margin:.4rem 0}
+
+/* ----- Choix du cas ----- */
+.cas-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:.7rem 0}
+.cas-choix{
+  text-align:left;background:#fff;border:2px solid var(--bord);border-radius:12px;
+  padding:.9rem;cursor:pointer;font-family:inherit;
+}
+.cas-choix:hover{border-color:var(--vert-clair)}
+.cas-choix.choisi{border-color:var(--vert);background:var(--valide-clair)}
+.cas-choix .embleme{font-size:1.6rem;display:block;margin-bottom:.3rem}
+.cas-choix h3{margin:.1rem 0 .3rem;font-size:1rem}
+.cas-choix p{font-size:.85rem;color:var(--texte-doux);margin:0}
+.brief-complet{
+  background:#f6faf6;border:1px solid var(--bord);border-radius:10px;padding:.9rem;margin:.8rem 0;
+}
+.brief-complet dl{display:grid;grid-template-columns:auto 1fr;gap:.25rem .8rem;font-size:.92rem}
+.brief-complet dt{font-weight:700;color:var(--vert-fonce)}
+
+/* ----- Prompt box ----- */
+.prompt-box{
+  background:var(--vert-fonce);color:#eef5ef;border-radius:10px;
+  padding:.8rem .9rem;margin:.8rem 0;position:relative;
+}
+.prompt-box .ptitre{font-weight:700;font-size:.85rem;margin-bottom:.4rem;color:var(--jaune)}
+.prompt-box pre{
+  white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  font-size:.82rem;line-height:1.5;
+}
+.prompt-box mark{background:var(--jaune);color:#23290f;border-radius:4px;padding:0 .25em}
+.btn-copier{
+  position:absolute;top:.6rem;right:.6rem;background:var(--jaune);color:#23290f;border:none;
+  font-weight:700;font-size:.75rem;padding:.35rem .7rem;border-radius:6px;cursor:pointer;
+}
+.btn-copier.ok{background:var(--valide);color:#fff}
+
+/* ----- Champs ----- */
+label{display:block;font-weight:700;font-size:.9rem;margin:.8rem 0 .25rem;color:var(--vert-fonce)}
+input[type=text],input[type=date],textarea,select{
+  width:100%;border:1.5px solid var(--bord);border-radius:8px;padding:.55rem .7rem;
+  font-family:inherit;font-size:.92rem;background:#fff;color:var(--texte);
+}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--vert)}
+.aide-champ{font-size:.8rem;color:var(--texte-doux);margin:.2rem 0 0}
+
+/* ----- Auto-évaluation ----- */
+fieldset.autoeval{border:1.5px solid var(--bord);border-radius:10px;padding:.7rem .9rem;margin:.9rem 0}
+fieldset.autoeval legend{font-weight:700;font-size:.88rem;color:var(--vert-fonce);padding:0 .4rem}
+label.case{display:flex;gap:.55rem;align-items:flex-start;font-weight:400;font-size:.9rem;margin:.45rem 0;cursor:pointer}
+label.case input{margin-top:.2rem;accent-color:var(--vert)}
+
+/* ----- Quiz ----- */
+.question{border:1px solid var(--bord);border-radius:10px;padding:.8rem .9rem;margin:.7rem 0}
+.qtitre{font-weight:700;margin-bottom:.5rem}
+.reponses{display:grid;gap:.45rem}
+.reponses button{
+  text-align:left;background:#fff;border:1.5px solid var(--bord);border-radius:8px;
+  padding:.55rem .7rem;font-family:inherit;font-size:.9rem;cursor:pointer;
+}
+.reponses button:hover:not(:disabled){border-color:var(--vert-clair)}
+.reponses button.bonne{border-color:var(--valide);background:var(--valide-clair);font-weight:700}
+.reponses button.mauvaise{border-color:var(--erreur);background:var(--erreur-clair)}
+.feedback{display:none;font-size:.88rem;border-radius:8px;padding:.5rem .7rem;margin-top:.45rem}
+.feedback.visible{display:block}
+.feedback.vrai{background:var(--valide-clair);color:var(--valide)}
+.feedback.faux{background:var(--erreur-clair);color:var(--erreur)}
+.score-final{
+  background:var(--vert-fonce);color:#fff;font-weight:700;border-radius:10px;
+  padding:.7rem .9rem;margin:.8rem 0;
+}
+
+/* ----- Boutons ----- */
+.zone-boutons{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+.btn{
+  border:none;border-radius:8px;font-weight:700;font-size:.95rem;cursor:pointer;
+  padding:.7rem 1.3rem;font-family:inherit;
+}
+.btn-principal{background:var(--vert);color:#fff}
+.btn-principal:hover{background:var(--vert-fonce)}
+.btn-principal:disabled{background:#c9d4ca;cursor:not-allowed}
+.btn-secondaire{background:#fff;color:var(--vert-fonce);border:1.5px solid var(--vert-fonce)}
+.btn-secondaire:hover{background:#eef5ef}
+.confirmation{
+  display:none;background:var(--valide-clair);color:var(--valide);font-weight:700;
+  padding:.55rem .8rem;border-radius:8px;margin-top:.6rem;font-size:.9rem;
+}
+.confirmation.visible{display:block}
+
+/* ----- Accueil / agenda ----- */
+.agenda{width:100%;border-collapse:collapse;font-size:.85rem;margin:.6rem 0}
+.agenda td{border-bottom:1px solid var(--bord);padding:.4rem .5rem;vertical-align:top}
+.agenda td:first-child{font-weight:700;color:var(--vert-fonce);white-space:nowrap;width:5.2rem}
+.agenda tr.tete-jour td{
+  background:var(--vert-fonce);color:#fff;font-weight:800;border-radius:4px;
+}
+.banniere-fin{
+  background:linear-gradient(135deg,var(--vert-fonce),var(--vert-clair));color:#fff;
+  border-radius:12px;padding:1.4rem;text-align:center;margin:.8rem 0;
+}
+.banniere-fin .gros{font-size:1.5rem;font-weight:800;margin-bottom:.4rem}
+
+/* ----- Impression : seul le récapitulatif s'imprime ----- */
+#zone-impression{display:none}
+@media print{
+  body *{visibility:hidden}
+  #zone-impression,#zone-impression *{visibility:visible}
+  #zone-impression{
+    display:block;position:absolute;top:0;left:0;width:100%;
+    font-size:11pt;color:#000;background:#fff;padding:0;
+  }
+  #zone-impression h1{font-size:16pt;color:#0f4d22;margin-bottom:4pt}
+  #zone-impression h2{font-size:13pt;color:#0f4d22;border-bottom:1.5pt solid #e8a90c;padding-bottom:2pt;margin:12pt 0 6pt;page-break-after:avoid}
+  #zone-impression h3{font-size:11.5pt;margin:8pt 0 3pt}
+  #zone-impression .bloc-livrable{border:1pt solid #999;border-radius:4pt;padding:6pt;margin:4pt 0;white-space:pre-wrap;page-break-inside:avoid}
+  #zone-impression .meta{color:#444;font-style:italic;margin-bottom:8pt}
+  #zone-impression ul{margin-left:14pt}
+}
+</style>
+</head>
+<body>
+<!-- ===================== EN-TÊTE PERMANENT ===================== -->
+<header class="appbar">
+  <div class="ligne1">
+    <span class="logo-chip"><img id="logo-eureden" src="data:image/png;base64,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ApMx4BeIUq7VRIDSOnRxnAhQtDSzROAwQ0eWgshm/Ev6+FD6vYNEv8YhAwtJGjwGIJLUBSkwGaGdHVmWPm491hOByi8S5V6riOBlJRGoLKfdh3Jks/yxngdZ8zjPR348R/RfTBDZiimiROrf0q8PENmMyfS107SzHLOWSknScDEAkaSSpTNPxohAZTXtM07GOz7++fR7rcCmNWp4lMNLwEaO+HiOw8cSL6Md7LSyA8uP+LgVGCwjMg8QN/zL0zMdn5vr+HiWdhnUdPoeh4B/7fjc3vRnJvj/27v/ILvK+77jb9+5udnKG0UjMxpVo9DTp6pCKCaEUV2GUQkhBDPEIRjbOMGOHf/ANiSOjRlCCKEMpcQhmGCCjfFvE2NM/IMqjk0ItjFlGEIoIQwhqkqVp6dUUbcaVSPL6ma9vXPTP77neq+W3dXuvec553nO+bxmdrRo2XOO7r3nOc+P7/f72CrFLLYRn/bFEBFpCQ1AREQSU+SsDMO6porvR/97LQOQ4UrLcNAx/N3hz8YZgMxrZ28REREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREWmVlzmXdeq+iAoMvM/rvoY1cy4DCPH+RPt6tPHffDwBX5OQBgCpvuZ1SfS9rpvu7TCSfV1TE/nnIFZJfz6Xe8+9zweVX0yFRv/dXeD9dV5MBQbAk85lTyX4xp4KnBvguHuABwMctwzbgAsDHPcp57LHU2uwigmC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" alt="Logo Eureden"></span>
+    <span class="badge-op">IA &amp; MARKETING · D'AUCY FRANCE</span>
+    <h1>Carnet de bord — L'IA au service du Marketing (2 jours)</h1>
+    <span class="qui" id="affichage-identite" aria-live="polite"></span>
+    <button class="btn-export" id="btn-export" type="button">🖨️ Exporter / imprimer mon carnet</button>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-info"><span>Progression de la formation</span><span id="progress-texte">0 %</span></div>
+    <div class="progress-bar" role="progressbar" aria-labelledby="progress-texte" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-aria">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== NAVIGATION PAR ÉTAPES ===================== -->
+<nav class="etapes" id="nav-etapes" aria-label="Étapes de la formation"></nav>
+
+<!-- ===================== CONTENU ===================== -->
+<main id="contenu" tabindex="-1"></main>
+
+<!-- ===================== ZONE D'IMPRESSION (récapitulatif) ===================== -->
+<div id="zone-impression" aria-hidden="true"></div>
+<script>
+"use strict";
+/* ==========================================================================
+   DONNÉES PÉDAGOGIQUES — synopsis Eureden / D'Aucy validé (programme Cegos
+   9585 adapté). Écosystème 100 % Gemini, validé par la cellule IA Eureden.
+   ========================================================================== */
+
+/* ----- Les 3 briefs du fil rouge D'Aucy ----- */
+const CAS = {
+  POTAGER: {
+    embleme: "🥕", nom: "Gamme « Le Potager 2026 »",
+    accroche: "Réussir le lancement de la nouvelle gamme premium de légumes appertisés",
+    contexte: "D'Aucy France lance « Le Potager 2026 », une gamme premium de légumes appertisés : recettes courtes, légumes français, conserves recyclables. Lancement national GMS + drive en septembre. C'est une opération d'image et de conquête sur le segment premium, face aux marques bio.",
+    cible: "familles actives 30-45 ans et flexitariens, sensibles à l'origine France et au « bien manger » sans y passer du temps, acheteurs GMS et drive",
+    objectif: "réussir le référencement et le lancement : notoriété de la gamme, essais produit, visibilité en rayon et en ligne",
+    ton: "authentique, généreux, ancré dans le terroir — gourmand sans être premium-snob",
+    ressources: "charte graphique D'Aucy, fiches produit de la gamme, données panel fictives fournies en formation, site daucy.fr",
+    produit: "la gamme « Le Potager 2026 » de légumes appertisés premium D'Aucy"
+  },
+  FAMILLE: {
+    embleme: "🍲", nom: "Plats cuisinés « Bien dans l'assiette »",
+    accroche: "Relancer les plats cuisinés familiaux face aux marques distributeurs",
+    contexte: "Les plats cuisinés D'Aucy perdent des parts de marché face aux MDD. L'opération « Bien dans l'assiette » veut repositionner la gamme : recettes améliorées (moins de sel, plus de légumes), prix accessible, formats familiaux. Enjeu : reconquérir les foyers petits budgets sans dévaloriser la marque.",
+    cible: "foyers familiaux attentifs au budget, parents pressés, acheteurs GMS hebdomadaires — décision d'achat rapide devant le rayon",
+    objectif: "regagner des parts de marché : essais, ré-achat et préférence de marque face aux MDD",
+    ton: "complice, malin, anti-gaspi — jamais culpabilisant sur le budget ou le temps",
+    ressources: "données panel fictives (PDM, prix moyens), fiches recettes et compositions produits, charte D'Aucy",
+    produit: "la gamme de plats cuisinés familiaux « Bien dans l'assiette » D'Aucy"
+  },
+  RHF: {
+    embleme: "👨‍🍳", nom: "Offre RHF « Cuisines de collectivités »",
+    accroche: "Développer les ventes auprès de la restauration hors foyer",
+    contexte: "D'Aucy développe son offre dédiée à la restauration hors foyer (cantines scolaires, hôpitaux, restauration d'entreprise) : grands formats, fiches nutritionnelles complètes, approvisionnement français tracé. La force de vente a besoin d'argumentaires solides et la marque de visibilité auprès des chefs et acheteurs.",
+    cible: "chefs de cuisine collective et acheteurs RHF — exigeants sur la nutrition, la traçabilité, la régularité d'approvisionnement et le prix au coût-portion",
+    objectif: "générer des contacts qualifiés et équiper la force de vente d'argumentaires percutants",
+    ton: "professionnel, précis, nutritionnel — la fiabilité avant le lyrisme",
+    ressources: "fiches nutritionnelles, données de performance anonymisées, charte D'Aucy, argumentaires existants",
+    produit: "l'offre RHF « Cuisines de collectivités » D'Aucy (grands formats légumes et plats cuisinés)"
+  }
+};
+
+/* ----- Quiz de synthèse J1 (17h00) : 5 questions d'ancrage ----- */
+const QUIZ_J1FIN = [
+  { q: "Que signifient les 5 lettres de la méthode RODEV pour construire un premier prompt ?",
+    r: ["Rôle, Objectif, Détails, Exemples, Validation",
+        "Rédiger, Organiser, Détailler, Évaluer, Vérifier",
+        "Rôle, Outil, Données, Échéance, Volume"],
+    bonne: 0,
+    fb: "RODEV structure le premier prompt : Rôle, Objectif(s), Détails (audience, contraintes, format), Exemples si possible, et Validation (« pose-moi des questions », « dis-le si tu ne sais pas »)." },
+  { q: "Et la méthode DIALOG sert à…",
+    r: ["Nommer les 6 émotions d'une IA",
+        "Piloter toute la conversation : Définir l'objectif, Interpréter, Ajuster, Limiter les risques, Optimiser, Garder le contenu",
+        "Choisir entre Gemini et Google Docs"],
+    bonne: 1,
+    fb: "RODEV concerne le premier prompt ; DIALOG couvre l'ensemble de la conversation, de la définition de l'objectif jusqu'à la décision de garder ou non le contenu." },
+  { q: "Une « hallucination » d'IA générative, c'est…",
+    r: ["Une panne temporaire du modèle",
+        "Une réponse inventée, présentée avec assurance comme un fait",
+        "Un bug d'affichage de l'interface"],
+    bonne: 1,
+    fb: "L'IA peut produire des informations fausses avec un ton très sûr d'elle. Réflexe : vérifier chiffres, sources et compositions produits — surtout en alimentaire." },
+  { q: "Chez Eureden, quelle est LA règle d'or avant d'utiliser une IA ?",
+    r: ["Utiliser l'outil le plus récent du marché",
+        "N'utiliser que les IA validées par la cellule IA (Gemini et son écosystème) et ne jamais y mettre de données sensibles",
+        "Toujours prompter en anglais"],
+    bonne: 1,
+    fb: "Seules les IA validées par la cellule IA Eureden sont autorisées (RGPD, IA Act, protection des données du groupe). Pas de ChatGPT, Copilot ou autres outils non couverts." },
+  { q: "Pour synthétiser une étude de 50 pages, la bonne pratique vue aujourd'hui est…",
+    r: ["Copier-coller les 50 pages dans un email",
+        "Importer le document dans Gemini App et demander synthèse, chiffres clés et questions/réponses sourcées",
+        "Lire en diagonale et improviser"],
+    bonne: 1,
+    fb: "Gemini App accepte vos documents : synthèse exécutive, tableau de chiffres clés, Q/R appuyées sur le texte — et carte mentale via Canvas en bonus." }
+];
+
+/* ----- Quiz réveil pédagogique J2 (09h00) : 8 questions sur le J1 ----- */
+const QUIZ_REVEIL = [
+  { q: "Dans RODEV, à quoi sert le V de « Validation » ?",
+    r: ["À demander à l'IA de poser ses questions et de signaler ce qu'elle ne sait pas",
+        "À valider automatiquement la mise en page",
+        "À vérifier l'orthographe du prompt"],
+    bonne: 0,
+    fb: "La Validation invite l'IA à questionner et à avouer ses limites : « pose-moi d'abord tes questions », « dis-le si tu ne sais pas ». Moins d'hallucinations, plus de pertinence." },
+  { q: "Quelle différence entre une IA générative « classique » et la fonctionnalité Recherche de Gemini ?",
+    r: ["Aucune, c'est la même chose",
+        "Avec la Recherche activée, Gemini appuie sa réponse sur des résultats web récents ; sinon il répond d'abord depuis son entraînement",
+        "La Recherche ne fonctionne qu'en anglais"],
+    bonne: 1,
+    fb: "Sans ancrage web, le modèle répond depuis ses données d'entraînement (avec une date de coupure). La Recherche ancre la réponse sur le web — utile pour l'actualité marché." },
+  { q: "Au travail, chez Eureden, que ne faut-il JAMAIS coller dans une IA ?",
+    r: ["Des données sensibles : clients, salariés, contrats, données panels nominatives",
+        "Des questions sur le marketing",
+        "Du texte en breton"],
+    bonne: 0,
+    fb: "RGPD et protection des données du groupe : jamais de données sensibles, même dans Gemini. C'est le L de DIALOG : Limiter les risques." },
+  { q: "Hier, nous avons construit un persona D'Aucy avec Gemini. Pourquoi est-ce utile ?",
+    r: ["Pour remplacer les études consommateurs",
+        "Pour personnifier un segment cible et tester messages et concepts en conversation",
+        "Pour générer automatiquement des packshots"],
+    bonne: 1,
+    fb: "Le persona incarné par Gemini permet de « répéter » : tester un message, une promesse, un concept produit face à une cible simulée — avant le terrain réel." },
+  { q: "L'IA peut augmenter la démarche marketing à quelles étapes ?",
+    r: ["Uniquement pour écrire des posts Instagram",
+        "Audit et diagnostic, segmentation, mix marketing (offre, prix, distribution)",
+        "Uniquement pour traduire des documents"],
+    bonne: 1,
+    fb: "L'IA augmente toute la démarche : questionnaires d'étude, social listening, interprétation de données, segmentation, personas et enrichissement de l'offre — pas seulement la communication." },
+  { q: "Un texte généré par IA peut être biaisé parce que…",
+    r: ["L'IA est de mauvaise humeur",
+        "Le modèle reproduit les biais présents dans ses données d'entraînement",
+        "Internet est trop lent"],
+    bonne: 1,
+    fb: "Les biais de représentation des données d'entraînement se retrouvent dans les réponses : un regard critique humain reste indispensable (le I de DIALOG : Interpréter)." },
+  { q: "Quel réflexe AVANT de garder un contenu généré par IA (le G de DIALOG) ?",
+    r: ["Le publier immédiatement pour gagner du temps",
+        "Vérifier : objectif atteint, exactitude, cohérence, ton, conformité — puis assumer la responsabilité humaine",
+        "Le faire relire par une autre IA et publier sans le lire"],
+    bonne: 1,
+    fb: "L'humain valide toujours : exactitude (compositions produits !), ton, conformité réglementaire. L'IA propose, vous disposez." },
+  { q: "Pour analyser un fichier de données chez Eureden, l'outil validé est…",
+    r: ["Gemini dans Google Sheets",
+        "N'importe quel outil freemium trouvé sur le web",
+        "Une calculatrice"],
+    bonne: 0,
+    fb: "Gemini est intégré à Google Sheets : synthèses, formules, détection de tendances — dans le périmètre Workspace Eureden, donc conforme aux règles du groupe." }
+];
+
+/* ----- Les ateliers et missions (J1 + J2) -----
+   Les segments {variable:cle} sont remplacés par les données du brief choisi ;
+   les {variables libres} restent surlignées. cdc = objectifs du cahier des
+   charges Eureden couverts (traçabilité). ----- */
+const MISSIONS = [
+  /* ============ JOUR 1 ============ */
+  { id: "a1", etape: 3, jour: 1, horaire: "J1 · 09h45", duree: "10 min",
+    titre: "Atelier 1 — Votre premier prompt Gemini",
+    objectif: "Prendre en main Gemini et constater la qualité (et les limites) d'une réponse.",
+    cdc: ["CDC 1.a"],
+    consigne: [
+      "Connectez-vous à gemini.google.com avec votre compte Workspace Eureden.",
+      "Testez le prompt ci-dessous, puis lisez la réponse d'un œil critique : qu'est-ce qui est juste, inventé, approximatif ?",
+      "Notez ci-dessous votre rapport d'étonnement : ce qui vous a surpris, en bien ou en mal."
+    ],
+    promptTitre: "Prompt découverte (Gemini)",
+    prompt: `Peux-tu me présenter {PRÉNOM NOM, votre poste chez D'Aucy France} en 2 phrases et associer à cette présentation une citation inspirante ?`,
+    livrables: [
+      { cle: "a1_etonnement", label: "Votre rapport d'étonnement (qualité, erreurs, ton de la réponse)", type: "long" }
+    ],
+    criteres: [
+      "J'ai vérifié ce que Gemini affirme sur moi (rien inventé ?)",
+      "J'ai repéré au moins une approximation ou une limite",
+      "Je sais me connecter à Gemini avec mon compte Eureden"
+    ]
+  },
+  { id: "a2", etape: 4, jour: 1, horaire: "J1 · 10h45", duree: "10 min",
+    titre: "Atelier 2 — Concepts clés expliqués simplement",
+    objectif: "S'approprier le vocabulaire de l'IA en le reformulant pour un enfant de 10 ans.",
+    cdc: ["CDC 1.a"],
+    consigne: [
+      "En sous-groupe, choisissez un concept : IA générative, chatbot, machine learning, deep learning, réseaux de neurones ou LLM.",
+      "Demandez à Gemini de le définir avec des exemples actuels, compréhensible par un enfant de 10 ans.",
+      "Affinez avec la conversation (méthode DIALOG) jusqu'à obtenir une définition que VOUS pourriez redire sans notes.",
+      "Collez votre définition finale ci-dessous — chaque groupe la présente ensuite."
+    ],
+    promptTitre: "Prompt de départ (à enrichir)",
+    prompt: `Tu es vulgarisateur scientifique. Explique le concept de {concept choisi} à un enfant de 10 ans, en 5 phrases maximum, avec un exemple concret tiré de la vie quotidienne d'une famille française en 2026. Puis propose une analogie avec la cuisine.`,
+    livrables: [
+      { cle: "a2_definition", label: "Votre définition finale (celle que vous présentez au groupe)", type: "long" }
+    ],
+    criteres: [
+      "Un enfant de 10 ans comprendrait vraiment",
+      "Nous avons itéré au moins une fois (pas pris la première réponse)",
+      "L'exemple utilisé est actuel et parlant"
+    ]
+  },
+  { id: "a3", etape: 5, jour: 1, horaire: "J1 · 12h00", duree: "10 min",
+    titre: "Atelier 3 — Votre premier prompt RODEV",
+    objectif: "Appliquer la méthode RODEV sur un cas réel : résumer un article et l'envoyer à un collègue.",
+    cdc: ["CDC 1.b"],
+    consigne: [
+      "Le formateur vous communique un article d'actualité agroalimentaire.",
+      "Construisez un prompt RODEV complet (Rôle, Objectif, Détails, Exemples, Validation) pour rédiger l'email de résumé destiné à un collègue.",
+      "Soumettez-le à Gemini, ajustez avec DIALOG, puis partagez votre prompt sur le Padlet.",
+      "Collez votre prompt ET le mail obtenu ci-dessous."
+    ],
+    promptTitre: "Trame RODEV à compléter",
+    prompt: `R — Tu es {rôle pertinent : ex. responsable veille du service marketing D'Aucy}. Je suis {votre poste}.
+O — Objectif : rédiger un email de résumé de l'article ci-dessous pour {destinataire}, afin qu'il/elle saisisse l'essentiel en 1 minute de lecture.
+D — Détails : 150 mots max, ton professionnel et direct, 3 points clés en liste, une phrase d'ouverture qui donne envie de lire, objet d'email percutant. Audience : {préciser}.
+E — Exemple de style attendu : « {coller un email que vous trouvez réussi} ».
+V — Avant de rédiger, pose-moi tes questions si le contexte est insuffisant. Signale ce que l'article ne dit pas.
+
+Article : {coller l'article}`,
+    livrables: [
+      { cle: "a3_prompt", label: "Votre prompt RODEV final", type: "long" },
+      { cle: "a3_mail", label: "L'email obtenu (après itérations DIALOG)", type: "long" }
+    ],
+    criteres: [
+      "Les 5 briques RODEV sont présentes dans mon prompt",
+      "J'ai ajusté au moins une fois la conversation (DIALOG)",
+      "L'email tient en 150 mots et l'essentiel y est",
+      "J'ai partagé mon prompt sur le Padlet"
+    ]
+  },
+  { id: "a4", etape: 6, jour: 1, horaire: "J1 · 14h00", duree: "30 min",
+    titre: "Atelier 4 — Persona D'Aucy avec Gemini",
+    objectif: "Personnifier un segment cible et le faire vivre en conversation pour tester des idées.",
+    cdc: ["CDC 1.b", "CDC 5.a"],
+    consigne: [
+      "En sous-groupes : choisissez une cible D'Aucy (foyers RHF, jeunes actifs flexitariens, familles petits budgets…) — idéalement la cible de votre brief fil rouge.",
+      "Construisez le persona avec Gemini (prompt ci-dessous), puis demandez-lui de L'INCARNER.",
+      "Testez : posez-lui des questions sur ses habitudes d'achat, présentez-lui un concept produit, observez ses réactions.",
+      "Échangez votre prompt persona avec un autre groupe et testez le leur. Consignez vos enseignements."
+    ],
+    promptTitre: "Prompt persona (2 temps)",
+    prompt: `Temps 1 — Construire :
+Tu es planneur stratégique dans l'agroalimentaire. Construis un persona détaillé pour {variable:produit}, cible : {variable:cible}. Format : prénom, âge, situation familiale, budget courses hebdomadaire, habitudes d'achat (GMS, drive, fréquence), rapport à la cuisine, freins et motivations face aux légumes en conserve, médias et réseaux utilisés, phrase type qu'il/elle pourrait dire.
+
+Temps 2 — Incarner :
+Tu es désormais ce persona. Réponds à toutes mes questions à la première personne, avec son vocabulaire, ses contraintes de budget et de temps, ses doutes. Ne sors jamais du personnage. Quand tu es prêt(e), présente-toi en 2 phrases.`,
+    livrables: [
+      { cle: "a4_persona", label: "Votre persona (le portrait obtenu)", type: "long" },
+      { cle: "a4_enseignements", label: "Ce que la conversation vous a appris (réactions au concept, objections, surprises)", type: "long" }
+    ],
+    criteres: [
+      "Le persona repose sur une vraie connaissance de la cible (pas un cliché)",
+      "Nous avons testé au moins un concept ou message face au persona",
+      "Nous avons identifié une objection à laquelle nous n'avions pas pensé",
+      "Rappel intégré : un persona simulé ne remplace pas une étude réelle"
+    ]
+  },
+  { id: "a5", etape: 7, jour: 1, horaire: "J1 · 15h15", duree: "30 min",
+    titre: "Atelier 5 — Synthétiser un corpus avec Gemini App",
+    objectif: "Extraire l'essentiel de documents longs : synthèse sourcée, chiffres clés, signaux faibles.",
+    cdc: ["CDC 4.a", "CDC 4.c"],
+    consigne: [
+      "Importez dans Gemini App les documents fournis par le formateur (étude de conjoncture légumes, 50+ pages).",
+      "Demandez une synthèse exécutive en 10 points, puis un tableau des chiffres clés, puis 3 questions/réponses appuyées sur le texte.",
+      "Creusez : « Quels signaux faibles pour le marché des légumes appertisés ? » — exigez les passages du document qui justifient chaque signal.",
+      "Bonus : générez une carte mentale du corpus avec Gemini Canvas.",
+      "Collez votre synthèse et vos signaux faibles ci-dessous."
+    ],
+    promptTitre: "Prompt synthèse de corpus (Gemini App, documents importés)",
+    prompt: `Tu es analyste études au service marketing de D'Aucy France. À partir des documents que je viens d'importer (et UNIQUEMENT d'eux) :
+1) Synthèse exécutive en 10 points, classés par importance pour une marque de légumes appertisés.
+2) Tableau des chiffres clés : indicateur / valeur / évolution / page ou section source.
+3) Les 3 signaux faibles les plus pertinents pour {variable:produit}, chacun justifié par un passage du document.
+Si une information ne figure pas dans les documents, dis-le explicitement au lieu de l'inventer.`,
+    livrables: [
+      { cle: "a5_synthese", label: "Votre synthèse en 10 points", type: "long" },
+      { cle: "a5_signaux", label: "Vos 3 signaux faibles (avec leur justification sourcée)", type: "long" }
+    ],
+    criteres: [
+      "Chaque chiffre clé est rattaché à sa source (page ou section)",
+      "J'ai vérifié au moins 2 affirmations en retournant au document",
+      "Les signaux faibles sont pertinents pour mon brief fil rouge",
+      "J'ai demandé à Gemini de signaler ce que le corpus ne dit PAS"
+    ]
+  },
+  { id: "a6", etape: 8, jour: 1, horaire: "J1 · 16h00", duree: "20 min",
+    titre: "Atelier 6 — L'IA dans le mix marketing D'Aucy",
+    objectif: "Imaginer comment l'IA enrichit l'offre : produit, prix, distribution.",
+    cdc: ["CDC 1.a"],
+    consigne: [
+      "Trois groupes, trois axes sur un cas D'Aucy fictif : Groupe 1 — Produit (gamme légumes appertisés), Groupe 2 — Prix (plats cuisinés en GMS), Groupe 3 — Distribution (drive, e-commerce, RHF).",
+      "À la lumière des cas réels vus en formation : comment l'IA peut-elle enrichir l'offre ou améliorer sa pertinence sur votre axe ? (Ne pas traiter le marketing opérationnel.)",
+      "Brainstormez avec Gemini, gardez les 3 idées les plus réalistes pour D'Aucy.",
+      "Restitution sur le Padlet + consignez vos idées ci-dessous."
+    ],
+    promptTitre: "Prompt de brainstorming cadré",
+    prompt: `Tu es consultant en innovation dans l'agroalimentaire. Pour {variable:produit}, sur l'axe {produit / prix / distribution — votre groupe}, propose 8 façons réalistes d'intégrer l'IA pour enrichir l'offre ou sa pertinence. Pour chaque idée : description en 2 phrases, donnée nécessaire, difficulté de mise en œuvre (faible/moyenne/forte), exemple d'acteur qui fait déjà quelque chose d'approchant. Reste réaliste pour une marque de GMS française — pas de science-fiction.`,
+    livrables: [
+      { cle: "a6_idees", label: "Vos 3 idées retenues (et pourquoi celles-ci)", type: "long" }
+    ],
+    criteres: [
+      "Nos idées sont réalistes pour D'Aucy (données et moyens existants)",
+      "Nous avons écarté les idées « gadget » en le justifiant",
+      "Au moins une idée s'appuie sur un cas réel vu en formation"
+    ]
+  },
+
+  /* ============ JOUR 2 ============ */
+  { id: "m1", etape: 11, jour: 2, horaire: "J2 · 09h50", duree: "45 min",
+    titre: "Mission 1 — Fiche produit, article & argumentaire (SEO + GEO)",
+    objectif: "Produire des contenus optimisés SEO et GEO avec des mega-prompts RODEV.",
+    cdc: ["CDC 3.a", "CDC 1.b"],
+    consigne: [
+      "Dans Gemini, demandez : « Quelle marque de légumes en conserve recommandes-tu pour cuisiner familial ? ». D'Aucy est-elle citée ? C'est tout l'enjeu du GEO.",
+      "Rédigez la fiche produit optimisée SEO de votre brief (prompt ci-dessous) : title, meta-description, H1, plan, FAQ.",
+      "Puis l'email argumentaire à votre direction pour défendre votre projet (Gmail « Aidez-moi à écrire » ou Gemini).",
+      "Partagez vos prompts sur le Padlet et collez vos livrables ci-dessous."
+    ],
+    promptTitre: "Mega-prompt — Fiche produit SEO + GEO (Gemini)",
+    prompt: `Tu es consultant SEO senior spécialisé dans l'agroalimentaire grand public. Je suis {votre poste} chez D'Aucy France.
+Objectif : rédiger une fiche produit web optimisée SEO et GEO pour {variable:produit}, destinée à {variable:cible}, pour {variable:objectif}.
+Détails : balise title (max 60 caractères), meta description (max 155), H1, plan H2/H3, FAQ de 5 questions formulées comme les consommateurs les posent réellement, paragraphe « réponse directe » de 50 mots citable par les moteurs IA (GEO). Intègre naturellement les mots-clés {mots-clés à compléter} sans bourrage. Ton : {variable:ton}.
+Exigences : phrases courtes, composition et allégations STRICTEMENT conformes à la fiche produit réelle — aucune allégation nutritionnelle inventée.
+Validation : pose-moi d'abord tes questions, puis termine par les 3 points à faire valider (réglementation INCO, allégations, charte).`,
+    livrables: [
+      { cle: "m1_constat", label: "Votre constat GEO (D'Aucy est-elle citée par Gemini ? Sur quelles questions ?)", type: "court" },
+      { cle: "m1_fiche", label: "Votre fiche produit SEO + GEO", type: "long" },
+      { cle: "m1_email", label: "Votre email argumentaire direction", type: "long" }
+    ],
+    criteres: [
+      "Title ≤ 60 caractères et meta description ≤ 155 caractères (comptés !)",
+      "La FAQ pose des questions que les consommateurs posent vraiment",
+      "Aucune allégation nutritionnelle ou composition inventée",
+      "L'email argumentaire tient en 1 écran avec UN appel à la décision",
+      "Prompts partagés sur le Padlet"
+    ]
+  },
+  { id: "m2", etape: 12, jour: 2, horaire: "J2 · 10h50", duree: "45 min",
+    titre: "Mission 2 — Packshots & lots promo (Imagen)",
+    objectif: "Générer des packshots produit unitaires et des visuels lots promo dans le respect de la charte.",
+    cdc: ["CDC 2.a", "CDC 2.b"],
+    consigne: [
+      "Jargon à mobiliser : packshot, outpainting, inpainting, fond studio.",
+      "Avec Imagen (via Gemini) : générez le packshot unitaire de votre produit (boîte, bocal ou barquette) sur fond studio.",
+      "Déclinez en lot promo x2 / x3 avec bandeau promotionnel, dans le respect de la charte D'Aucy.",
+      "Bonus : une retouche avec Nano Banana (changer le fond, ajouter un ingrédient) — comparez avant/après.",
+      "Collez vos prompts finaux et décrivez vos résultats ci-dessous."
+    ],
+    promptTitre: "Prompt packshot (Imagen via Gemini)",
+    prompt: `Photographie packshot professionnelle pour {variable:produit} : {décrire le contenant : boîte de conserve / bocal / barquette} posé sur fond studio blanc épuré, éclairage doux et naturel, légère ombre portée, mise au point nette sur l'étiquette, style photographie culinaire de marque GMS premium, couleurs fidèles à la charte D'Aucy (vert dominant), AUCUN texte généré sur l'image en dehors de l'étiquette, format carré 1:1.
+Puis propose 2 variantes : une version « lot promotionnel x3 » avec bandeau promo, et une version d'ambiance avec légumes frais autour du produit.`,
+    livrables: [
+      { cle: "m2_prompts", label: "Vos prompts finaux (packshot + lot promo) et ce que vous avez modifié entre les itérations", type: "long" },
+      { cle: "m2_bilan", label: "Bilan : qualité des visuels, limites constatées, usage possible en réel", type: "long" }
+    ],
+    criteres: [
+      "Le packshot est exploitable comme base de travail (cadrage, lumière, fond)",
+      "J'ai itéré en changeant UN paramètre à la fois",
+      "J'ai vérifié la cohérence avec la charte (couleurs, esprit de marque)",
+      "Je sais ce qui devra repasser par un graphiste avant publication"
+    ]
+  },
+  { id: "m3", etape: 13, jour: 2, horaire: "J2 · 11h35", duree: "30 min",
+    titre: "Mission 3 — Argumentaire force de vente (Google Stitch)",
+    objectif: "Générer un visuel d'argumentaire structuré, charte + données de performance.",
+    cdc: ["CDC 2.e"],
+    consigne: [
+      "Après la démo du formateur, ouvrez Google Stitch.",
+      "Décrivez en langage naturel la planche argumentaire destinée à la force de vente : bénéfices produit, chiffres clés (données anonymisées fournies), packshot, preuve de réassurance.",
+      "Itérez section par section jusqu'à une maquette présentable.",
+      "Décrivez votre maquette ci-dessous (ou collez le lien)."
+    ],
+    promptTitre: "Brief Google Stitch — planche argumentaire",
+    prompt: `Planche argumentaire one-page pour la force de vente D'Aucy, produit : {variable:produit}. Cible de l'argumentaire : {variable:cible}.
+Structure : en-tête avec logo et nom de gamme, 3 bénéfices produit avec icônes, bloc chiffres clés de performance ({coller les données anonymisées fournies}), visuel packshot central, bandeau de réassurance (origine France, traçabilité, RSE), appel à l'action commercial en pied de page.
+Style : sobre et professionnel, dominante vert D'Aucy, accents jaune, lisible en présentation tablette face à un acheteur.`,
+    livrables: [
+      { cle: "m3_maquette", label: "Votre maquette : sections retenues + lien ou description de la planche Stitch", type: "long" }
+    ],
+    criteres: [
+      "La planche tient sur UNE page et se lit en 30 secondes",
+      "Les chiffres utilisés viennent des données fournies (rien d'inventé)",
+      "Un commercial pourrait s'en servir demain face à un acheteur",
+      "J'ai identifié ce qui devra être validé (charte, juridique)"
+    ]
+  },
+  { id: "m4", etape: 14, jour: 2, horaire: "J2 · 12h05", duree: "25 min",
+    titre: "Mission 4 — Vidéo motion design (Vids + Veo)",
+    objectif: "Écrire un prompt vidéo, générer un script et monter une courte vidéo produit.",
+    cdc: ["CDC 2.c", "CDC 2.d"],
+    consigne: [
+      "En binômes. Écrivez d'abord le script avec Gemini (prompt ci-dessous).",
+      "Dans Google Vids : créez la vidéo à partir du script (scènes, voix off, banque de médias).",
+      "Générez un plan court avec Veo (8 secondes) et intégrez-le.",
+      "Projection de quelques réalisations en plénière. Collez votre prompt vidéo et votre script ci-dessous."
+    ],
+    promptTitre: "Prompt script vidéo (Gemini) + plan Veo",
+    prompt: `Script — Tu es concepteur-rédacteur vidéo. Écris le script d'une vidéo motion design de 45 secondes pour {variable:produit}, destinée à {variable:cible}, diffusée sur les réseaux sociaux. Structure : accroche 3 secondes (problème du quotidien), bénéfice produit en 3 scènes courtes, preuve (origine France / nutrition), appel à l'action final. Pour chaque scène : visuel décrit, texte à l'écran (6 mots max), voix off (1 phrase). Ton : {variable:ton}.
+
+Plan Veo — Génère une vidéo de 8 secondes : {décrire LA scène clé : ex. légumes verts tombant au ralenti dans une poêle fumante, cuisine familiale lumineuse, ambiance chaleureuse}, mouvement de caméra lent, lumière naturelle, style publicité culinaire, pas de texte incrusté.`,
+    livrables: [
+      { cle: "m4_script", label: "Votre script vidéo (scènes, textes, voix off)", type: "long" },
+      { cle: "m4_retours", label: "Votre retour d'expérience Vids + Veo (ce qui marche, ce qui coince)", type: "long" }
+    ],
+    criteres: [
+      "Le script raconte une histoire en 45 secondes (accroche → preuve → action)",
+      "Chaque texte à l'écran fait 6 mots maximum",
+      "Le plan Veo décrit UNE scène précise (pas un catalogue)",
+      "Nous savons ce que la vidéo finale exigerait avant diffusion réelle"
+    ]
+  },
+  { id: "m5", etape: 15, jour: 2, horaire: "J2 · 14h00", duree: "45 min",
+    titre: "Mission 5 — Newsletter, idées recettes & comptes-rendus",
+    objectif: "Produire du contenu éditorial fiable : newsletter, recettes conformes au produit, CR de réunion.",
+    cdc: ["CDC 3.b", "CDC 3.c"],
+    consigne: [
+      "Newsletter : sujet, objet d'email, plan du contenu et visuel d'illustration (Imagen) pour votre brief.",
+      "Groupe A — Recettes : 5 idées recettes avec votre produit, en respectant STRICTEMENT sa composition (liste d'ingrédients fournie). Vérifiez chaque ingrédient.",
+      "Groupe B — Comptes-rendus : générez un CR structuré à partir d'une présentation + notes succinctes (documents fournis).",
+      "Restitution croisée. Collez vos livrables ci-dessous."
+    ],
+    promptTitre: "Prompt recettes « respect produit » (Gemini)",
+    prompt: `Tu es chef de cuisine et rédacteur culinaire pour D'Aucy. Voici la composition EXACTE de {variable:produit} : {coller la liste d'ingrédients officielle}.
+Propose 5 idées de recettes familiales utilisant ce produit. Contraintes STRICTES : ne jamais modifier ni réinterpréter la composition du produit ; chaque recette précise temps de préparation (≤ 25 min), nombre de personnes, ingrédients complémentaires courants, 3 étapes maximum. Cible : {variable:cible}. Ton : {variable:ton}.
+Termine par un avertissement listant ce que je dois vérifier avant publication (allergènes, cuisson, allégations).`,
+    livrables: [
+      { cle: "m5_newsletter", label: "Votre newsletter : sujet, objet, plan, description du visuel", type: "long" },
+      { cle: "m5_production", label: "Votre production de groupe : 5 recettes (A) ou compte-rendu (B)", type: "long" }
+    ],
+    criteres: [
+      "Les recettes respectent la composition réelle du produit (vérifiée ligne à ligne)",
+      "Le CR distingue décisions / actions / points ouverts",
+      "L'objet d'email donne envie d'ouvrir en moins de 50 caractères",
+      "Tout contenu a été relu par un humain avant restitution"
+    ]
+  },
+  { id: "m6", etape: 16, jour: 2, horaire: "J2 · 14h45", duree: "45 min",
+    titre: "Mission 6 — Panels Circana / Kantar & signaux faibles",
+    objectif: "Analyser des données panel avec Gemini dans Sheets : synthèse, signaux, multi-fichiers.",
+    cdc: ["CDC 4.b", "CDC 4.c", "CDC 4.d"],
+    consigne: [
+      "Ouvrez le panel fictif fourni dans Google Sheets.",
+      "Avec Gemini dans Sheets : synthèse des évolutions de parts de marché, top/flop segments, anomalies.",
+      "Détectez les signaux émergents et signaux faibles ; croisez avec des données externes via Gemini (Recherche activée).",
+      "Testez le traitement multi-fichiers : posez une question qui exige de croiser les 2 fichiers fournis.",
+      "Consignez vos 3 enseignements clés ci-dessous."
+    ],
+    promptTitre: "Prompt analyse panel (Gemini dans Sheets)",
+    prompt: `Tu es analyste panels (type Circana / Kantar) pour D'Aucy. Sur ce tableau :
+1) Synthétise les évolutions de parts de marché par segment sur la période, en 5 points hiérarchisés.
+2) Identifie les 3 segments en croissance et les 3 en recul, avec les chiffres exacts du tableau.
+3) Signale toute anomalie ou rupture de tendance qui mériterait une vérification.
+4) Quels signaux émergents et signaux faibles pour {variable:produit} ? Distingue ce qui vient du tableau de ce qui relève de ton interprétation.
+N'invente aucun chiffre : cite uniquement les valeurs présentes dans la feuille.`,
+    livrables: [
+      { cle: "m6_enseignements", label: "Vos 3 enseignements clés (avec les chiffres qui les appuient)", type: "long" },
+      { cle: "m6_signaux", label: "Signaux émergents / faibles détectés + votre verdict (à creuser ou non)", type: "long" }
+    ],
+    criteres: [
+      "Chaque enseignement s'appuie sur un chiffre exact du panel",
+      "J'ai vérifié au moins 2 chiffres cités par Gemini dans la feuille",
+      "J'ai distingué données du tableau et interprétation de l'IA",
+      "J'ai testé une question croisant les 2 fichiers"
+    ]
+  },
+  { id: "m7", etape: 17, jour: 2, horaire: "J2 · 15h45", duree: "30 min",
+    titre: "Mission 7 — Étude de marché & test de concepts",
+    objectif: "Construire un guide d'étude qualitative et projeter des résultats quantitatifs.",
+    cdc: ["CDC 5.a", "CDC 5.b"],
+    consigne: [
+      "Construisez avec Gemini un guide d'entretien qualitatif pour votre cible (prompt ci-dessous).",
+      "Puis projetez : demandez à Gemini de simuler des réponses types et un scoring de votre concept produit.",
+      "Discutez en groupe : que vaut une projection IA ? Où sont ses limites ?",
+      "Collez votre guide et votre scoring ci-dessous."
+    ],
+    promptTitre: "Prompt guide quali + projection (Gemini)",
+    prompt: `Partie 1 — Tu es directeur d'études qualitatives. Construis un guide d'entretien semi-directif de 45 minutes pour explorer les perceptions de {variable:cible} sur {variable:produit}. Structure : icebreaker, habitudes actuelles, perceptions de la catégorie, réaction au concept ({coller votre concept en 3 phrases}), intentions, conclusion projective. 15 questions maximum, ouvertes, sans induire les réponses.
+
+Partie 2 — Simule maintenant un panel de 8 répondants représentatifs de cette cible et fais réagir chacun au concept. Puis score le concept sur 10 pour : clarté, attractivité, crédibilité, intention d'achat. IMPORTANT : précise clairement que cette projection est une simulation et liste ses limites face à une vraie étude terrain.`,
+    livrables: [
+      { cle: "m7_guide", label: "Votre guide d'entretien (les questions clés)", type: "long" },
+      { cle: "m7_scoring", label: "Le scoring simulé + votre lecture critique (que faut-il quand même vérifier sur le terrain ?)", type: "long" }
+    ],
+    criteres: [
+      "Les questions du guide sont ouvertes et n'induisent pas la réponse",
+      "La projection est clairement étiquetée comme simulation",
+      "Nous avons listé ce que seule une vraie étude peut valider",
+      "Le scoring nous aide à prioriser sans décider à notre place"
+    ]
+  },
+  { id: "m8", etape: 18, jour: 2, horaire: "J2 · 16h15", duree: "25 min",
+    titre: "Mission 8 — Présenter & synthétiser (Slides + Canvas)",
+    objectif: "Générer une présentation à partir d'un prompt, l'adapter à une autre cible, créer une mindmap.",
+    cdc: ["CDC 6.a", "CDC 6.b", "CDC 6.c"],
+    consigne: [
+      "Avec Gemini dans Slides : générez une présentation de votre projet fil rouge à partir d'un prompt précis (prompt ci-dessous).",
+      "Retravaillez-la pour une autre cible : « adapte cette présentation pour la force de vente » (ou la direction).",
+      "Synthétisez les messages clés de la marque en carte mentale one-page avec Gemini Canvas.",
+      "Collez le lien de votre Slides et décrivez votre mindmap ci-dessous."
+    ],
+    promptTitre: "Prompt présentation (Gemini dans Slides)",
+    prompt: `Crée une présentation de 8 diapositives pour présenter le projet {variable:nomcas} à {la direction marketing / la force de vente — choisir}.
+Structure : 1 titre fort, contexte marché en 3 chiffres, le concept en une phrase, la cible et son insight, le mix (produit, prix, distribution), le plan de communication, les indicateurs de succès, l'appel à la décision.
+Ton : {variable:ton}. Une idée par diapositive, 20 mots maximum par diapositive, propose une suggestion de visuel pour chacune.`,
+    livrables: [
+      { cle: "m8_slides", label: "Lien (ou description) de votre présentation + ce que vous avez changé pour l'autre cible", type: "long" },
+      { cle: "m8_mindmap", label: "Votre mindmap des messages clés (décrivez les branches principales)", type: "long" }
+    ],
+    criteres: [
+      "Chaque diapositive porte UNE idée et ≤ 20 mots",
+      "La version « autre cible » change vraiment d'angle (pas juste le titre)",
+      "La mindmap tient sur une page et un nouveau venu la comprendrait",
+      "La mise en forme finale a été vérifiée par un humain"
+    ]
+  }
+];
+
+/* ----- Métadonnées des 21 étapes (ordre de navigation) ----- */
+const ETAPES = [
+  { id: 0,  jour: 1, nav: "Accueil",        titre: "Bienvenue dans votre carnet de bord", horaire: "—" },
+  { id: 1,  jour: 1, nav: "Positionnement", titre: "Positionnement & attentes", horaire: "J1 · 09h00", duree: "30 min" },
+  { id: 2,  jour: 1, nav: "Fil rouge",      titre: "Briefing fil rouge — choisissez votre cas D'Aucy", horaire: "J1 · 09h30", duree: "15 min" },
+  { id: 3,  jour: 1, nav: "Atelier 1",      titre: "", horaire: "J1 · 09h45" },
+  { id: 4,  jour: 1, nav: "Atelier 2",      titre: "", horaire: "J1 · 10h45" },
+  { id: 5,  jour: 1, nav: "Atelier 3",      titre: "", horaire: "J1 · 12h00" },
+  { id: 6,  jour: 1, nav: "Atelier 4",      titre: "", horaire: "J1 · 14h00" },
+  { id: 7,  jour: 1, nav: "Atelier 5",      titre: "", horaire: "J1 · 15h15" },
+  { id: 8,  jour: 1, nav: "Atelier 6",      titre: "", horaire: "J1 · 16h00" },
+  { id: 9,  jour: 1, nav: "Synthèse J1",    titre: "Synthèse & ancrage du Jour 1", horaire: "J1 · 17h00", duree: "30 min" },
+  { id: 10, jour: 2, nav: "Réveil J2",      titre: "Réveil pédagogique — la battle du Jour 1", horaire: "J2 · 09h00", duree: "20 min" },
+  { id: 11, jour: 2, nav: "Mission 1",      titre: "", horaire: "J2 · 09h50" },
+  { id: 12, jour: 2, nav: "Mission 2",      titre: "", horaire: "J2 · 10h50" },
+  { id: 13, jour: 2, nav: "Mission 3",      titre: "", horaire: "J2 · 11h35" },
+  { id: 14, jour: 2, nav: "Mission 4",      titre: "", horaire: "J2 · 12h05" },
+  { id: 15, jour: 2, nav: "Mission 5",      titre: "", horaire: "J2 · 14h00" },
+  { id: 16, jour: 2, nav: "Mission 6",      titre: "", horaire: "J2 · 14h45" },
+  { id: 17, jour: 2, nav: "Mission 7",      titre: "", horaire: "J2 · 15h45" },
+  { id: 18, jour: 2, nav: "Mission 8",      titre: "", horaire: "J2 · 16h15" },
+  { id: 19, jour: 2, nav: "Veille & projet", titre: "Veille IA & gestion de projet collaboratif", horaire: "J2 · 16h40", duree: "20 min" },
+  { id: 20, jour: 2, nav: "Plan d'action",  titre: "Plan d'action 30 / 60 / 90 jours & évaluations", horaire: "J2 · 17h00", duree: "30 min" }
+];
+const DERNIERE_ETAPE = 20;
+
+/* ==========================================================================
+   ÉTAT & PERSISTANCE — tout est sauvegardé dans localStorage (clé unique).
+   Aucune donnée n'est envoyée à un serveur : tout reste dans le navigateur.
+   ========================================================================== */
+const CLE_STOCKAGE = "carnet_eureden_ia_v1";
+
+const etatParDefaut = () => ({
+  prenom: "", equipe: "", cas: "",
+  unlocked: 0,                    // index max d'étape accessible
+  done: {},                       // { numéroÉtape: true }
+  quizFin: {}, quizReveil: {},    // { indexQuestion: indexRéponseChoisie }
+  champs: {}                      // toutes les saisies texte/checkbox { clé: valeur }
+});
+
+let etat = chargerEtat();
+let etapeCourante = Math.min(etat.unlocked, DERNIERE_ETAPE);
+
+function chargerEtat() {
+  try {
+    const brut = localStorage.getItem(CLE_STOCKAGE);
+    if (brut) return Object.assign(etatParDefaut(), JSON.parse(brut));
+  } catch (e) { /* stockage indisponible : on repart à zéro */ }
+  return etatParDefaut();
+}
+function sauvegarder() {
+  try { localStorage.setItem(CLE_STOCKAGE, JSON.stringify(etat)); } catch (e) { /* quota plein */ }
+  majProgression();
+  majNav();
+}
+
+/* ----- Aides ----- */
+function echapper(t) {
+  return String(t == null ? "" : t)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function $(sel, racine) { return (racine || document).querySelector(sel); }
+function $$(sel, racine) { return Array.from((racine || document).querySelectorAll(sel)); }
+
+/* Substitue {variable:cle} par la donnée du cas choisi ; surligne le reste. */
+function preparerPrompt(modele, pourHtml) {
+  const cas = CAS[etat.cas];
+  let txt = modele;
+  if (cas) {
+    txt = txt.replace(/\{variable:nomcas\}/g, cas.nom)
+             .replace(/\{variable:produit\}/g, cas.produit)
+             .replace(/\{variable:cible\}/g, cas.cible)
+             .replace(/\{variable:objectif\}/g, cas.objectif)
+             .replace(/\{variable:ton\}/g, cas.ton);
+  } else {
+    txt = txt.replace(/\{variable:(\w+)\}/g, "{$1 — choisissez d'abord votre cas fil rouge}");
+  }
+  if (!pourHtml) return txt;
+  return echapper(txt).replace(/\{([^}]+)\}/g, "<mark>{$1}</mark>");
+}
+
+/* Copie dans le presse-papiers avec solution de repli. */
+function copierTexte(texte, bouton) {
+  const ok = () => {
+    bouton.classList.add("ok"); bouton.textContent = "✓ Copié !";
+    setTimeout(() => { bouton.classList.remove("ok"); bouton.textContent = "Copier le prompt"; }, 2200);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texte).then(ok).catch(() => replis());
+  } else { replis(); }
+  function replis() {
+    const ta = document.createElement("textarea");
+    ta.value = texte; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); ok(); } catch (e) { alert("Copie impossible : sélectionnez le texte manuellement."); }
+    document.body.removeChild(ta);
+  }
+}
+
+/* ==========================================================================
+   PROGRESSION & NAVIGATION (avec séparateurs Jour 1 / Jour 2)
+   ========================================================================== */
+function nbEtapesFaites() { return ETAPES.filter(e => etat.done[e.id]).length; }
+
+function majProgression() {
+  const pct = Math.round(nbEtapesFaites() / ETAPES.length * 100);
+  $("#progress-fill").style.width = pct + "%";
+  $("#progress-texte").textContent = pct + " % — " + nbEtapesFaites() + "/" + ETAPES.length + " étapes";
+  $("#progress-aria").setAttribute("aria-valuenow", pct);
+  const ident = [];
+  if (etat.prenom) ident.push(etat.prenom);
+  if (etat.equipe) ident.push("Équipe " + etat.equipe);
+  if (etat.cas && CAS[etat.cas]) ident.push(CAS[etat.cas].embleme + " " + CAS[etat.cas].nom);
+  $("#affichage-identite").textContent = ident.join(" · ");
+}
+
+function majNav() {
+  const nav = $("#nav-etapes");
+  nav.innerHTML = "";
+  let jourCourant = 0;
+  ETAPES.forEach(e => {
+    if (e.jour !== jourCourant) {
+      jourCourant = e.jour;
+      const sep = document.createElement("span");
+      sep.className = "sep-jour";
+      sep.textContent = "JOUR " + jourCourant;
+      nav.appendChild(sep);
+    }
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = e.nav;
+    const verrouille = e.id > etat.unlocked;
+    if (verrouille) { b.classList.add("verrou"); b.setAttribute("aria-disabled", "true"); b.title = "Étape verrouillée : terminez d'abord les étapes précédentes."; }
+    if (etat.done[e.id]) b.classList.add("fait");
+    if (e.id === etapeCourante) { b.classList.add("actif"); b.setAttribute("aria-current", "step"); }
+    b.addEventListener("click", () => { if (!verrouille) afficherEtape(e.id); });
+    nav.appendChild(b);
+  });
+}
+
+function afficherEtape(n) {
+  etapeCourante = n;
+  rendre(n);
+  majNav();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  $("#contenu").focus({ preventScroll: true });
+}
+
+function validerEtape(n, messageId) {
+  etat.done[n] = true;
+  etat.unlocked = Math.max(etat.unlocked, Math.min(n + 1, DERNIERE_ETAPE));
+  sauvegarder();
+  if (messageId) { const m = $("#" + messageId); if (m) m.classList.add("visible"); }
+}
+
+/* ==========================================================================
+   GABARITS COMMUNS
+   ========================================================================== */
+function enteteEtape(e, titreForce) {
+  return '<div class="etape-entete">' +
+    '<span class="jour-chip">Jour ' + e.jour + "</span>" +
+    '<span class="horaire">' + echapper(e.horaire) + '</span>' +
+    (e.duree ? '<span class="duree">' + echapper(e.duree) + '</span>' : "") +
+    '</div><h2>' + echapper(titreForce || e.titre) + "</h2>";
+}
+function rappelCas() {
+  const c = CAS[etat.cas];
+  if (!c) return "";
+  return '<details class="rappel-cas"><summary>Rappel de votre brief — ' + echapper(c.nom) + "</summary>" +
+    "<p><strong>Contexte :</strong> " + echapper(c.contexte) + "</p>" +
+    "<p><strong>Cible :</strong> " + echapper(c.cible) + "</p>" +
+    "<p><strong>Objectif :</strong> " + echapper(c.objectif) + "</p>" +
+    "<p><strong>Ton :</strong> " + echapper(c.ton) + "</p>" +
+    "<p><strong>Ressources :</strong> " + echapper(c.ressources) + "</p></details>";
+}
+function champTexte(cle, label, type, aide) {
+  const val = echapper(etat.champs[cle] || "");
+  const id = "champ_" + cle;
+  let html = '<label for="' + id + '">' + echapper(label) + "</label>";
+  if (type === "court") html += '<input type="text" id="' + id + '" data-cle="' + cle + '" value="' + val + '">';
+  else html += '<textarea id="' + id + '" data-cle="' + cle + '">' + val + "</textarea>";
+  if (aide) html += '<p class="aide-champ">' + echapper(aide) + "</p>";
+  return html;
+}
+function casesAutoEval(prefixe, criteres, titre) {
+  let html = '<fieldset class="autoeval"><legend>' + echapper(titre || "Auto-évaluation — cochez ce qui est vrai pour votre livrable") + "</legend>";
+  criteres.forEach((c, i) => {
+    const cle = prefixe + "_crit" + i;
+    const coche = etat.champs[cle] ? " checked" : "";
+    html += '<label class="case"><input type="checkbox" data-cle="' + cle + '"' + coche + "><span>" + echapper(c) + "</span></label>";
+  });
+  return html + "</fieldset>";
+}
+function chipsCdc(cdc) {
+  if (!cdc || !cdc.length) return "";
+  return cdc.map(c => '<span class="cdc-chip">' + echapper(c) + "</span>").join(" ");
+}
+
+/* ==========================================================================
+   RENDU DES ÉTAPES
+   ========================================================================== */
+const ETAPES_MISSION = MISSIONS.map(m => m.etape);
+
+function rendre(n) {
+  const zone = $("#contenu");
+  const e = ETAPES[n];
+  let html = "";
+
+  /* ---------- 0. ACCUEIL ---------- */
+  if (n === 0) {
+    html = '<section class="carte">' + enteteEtape(e) +
+      "<p>Bonjour et bienvenue ! Ce carnet de bord vous accompagne pendant les <strong>2 jours</strong> de la formation <strong>« L'IA au service du Marketing »</strong> (programme Cegos 9585, adaptation Eureden / D'Aucy France). Chaque étape déverrouille la suivante ; toutes vos réponses sont enregistrées <strong>uniquement dans votre navigateur</strong> — rien n'est envoyé sur un serveur.</p>" +
+      '<div class="objectif"><strong>Vos objectifs des 2 jours :</strong> identifier le bon outil de l\'écosystème Gemini pour chaque besoin, maîtriser le prompt avec les méthodes DIALOG et RODEV, et produire avec l\'IA — visuels, vidéos, contenus, analyses de panels, études et présentations — dans le respect des règles de la cellule IA Eureden.</div>' +
+      '<div class="objectif" style="background:var(--jaune-clair);border-left-color:var(--jaune)"><strong>Règle d\'or Eureden :</strong> seules les IA validées par la cellule IA sont utilisées (Gemini et son écosystème Workspace). Jamais de données sensibles dans un prompt.</div>' +
+      champTexte("prenom_tmp", "Votre prénom", "court") +
+      champTexte("equipe_tmp", "Le nom de votre équipe", "court", "Exemples : Les Maraîchers, Team Potager, Brigade Bretonne…") +
+      "<h3>Le programme des 2 jours</h3><table class=\"agenda\"><tbody>" +
+      '<tr class="tete-jour"><td colspan="2">JOUR 1 — Fondamentaux de l\'IA &amp; démarche marketing</td></tr>' +
+      [["09h00", "Positionnement & attentes (Wooclap)"], ["09h45", "Atelier 1 — Premier prompt Gemini"],
+       ["10h45", "Atelier 2 — Concepts clés"], ["11h00", "Prompt engineering : DIALOG & RODEV"],
+       ["12h00", "Atelier 3 — Premier prompt RODEV"], ["14h00", "Atelier 4 — Persona D'Aucy"],
+       ["15h15", "Atelier 5 — Synthèse de corpus (Gemini App)"], ["16h00", "Atelier 6 — Mix marketing D'Aucy"],
+       ["17h00", "Synthèse & ancrage J1"]]
+        .map(l => "<tr><td>" + l[0] + "</td><td>" + echapper(l[1]) + "</td></tr>").join("") +
+      '<tr class="tete-jour"><td colspan="2">JOUR 2 — Marketing opérationnel &amp; relation clients</td></tr>' +
+      [["09h00", "Réveil pédagogique — battle du J1"], ["09h20", "SEO & GEO produits D'Aucy"],
+       ["09h50", "Mission 1 — Fiche produit & argumentaire"], ["10h50", "Mission 2 — Packshots Imagen"],
+       ["11h35", "Mission 3 — Stitch force de vente"], ["12h05", "Mission 4 — Vidéo Vids + Veo"],
+       ["14h00", "Mission 5 — Newsletter, recettes & CR"], ["14h45", "Mission 6 — Panels & signaux faibles"],
+       ["15h45", "Mission 7 — Étude de marché & concepts"], ["16h15", "Mission 8 — Présenter & synthétiser"],
+       ["16h40", "Veille IA & gestion de projet"], ["17h00", "Plan d'action 30/60/90 & évaluations"]]
+        .map(l => "<tr><td>" + l[0] + "</td><td>" + echapper(l[1]) + "</td></tr>").join("") +
+      "</tbody></table>" +
+      '<div class="zone-boutons"><button class="btn btn-principal" id="btn-demarrer" type="button">Commencer la formation →</button></div>' +
+      '<p class="confirmation" id="conf-0" role="status">C\'est parti ! L\'étape Positionnement est déverrouillée.</p></section>';
+  }
+
+  /* ---------- 1. POSITIONNEMENT ---------- */
+  else if (n === 1) {
+    html = '<section class="carte">' + enteteEtape(e) +
+      "<p>Avant de plonger dans l'IA, faisons le point : d'où partez-vous, et qu'attendez-vous de ces 2 jours ? Répondez aussi au Wooclap projeté à l'écran (code : <strong>EUREDENIA2026</strong>).</p>" +
+      '<label for="champ_niveau">Votre niveau de pratique des IA génératives aujourd\'hui</label>' +
+      '<select id="champ_niveau" data-cle="niveau">' +
+      ['— Choisir —', 'Jamais utilisé', 'Découverte (quelques essais)', 'Utilisation occasionnelle', 'Utilisation régulière', 'Utilisateur avancé'].map((o, i) =>
+        '<option value="' + (i ? echapper(o) : '') + '"' + (etat.champs["niveau"] === o ? " selected" : "") + ">" + echapper(o) + "</option>").join("") +
+      "</select>" +
+      champTexte("attente1", "Attente n°1 — la tâche que vous rêvez d'accélérer avec l'IA", "court") +
+      champTexte("attente2", "Attente n°2", "court") +
+      champTexte("attente3", "Attente n°3 (optionnel)", "court") +
+      champTexte("usage_actuel", "Utilisez-vous déjà Gemini dans votre quotidien ? Pour quoi faire ?", "long") +
+      '<div class="zone-boutons"><button class="btn btn-principal" type="button" data-valide-simple="1">💾 Enregistrer mon positionnement</button></div>' +
+      '<p class="confirmation" id="conf-1" role="status">Positionnement enregistré — découvrez maintenant le fil rouge !</p></section>';
+  }
+
+  /* ---------- 2. BRIEFING + CHOIX DU CAS ---------- */
+  else if (n === 2) {
+    html = '<section class="carte">' + enteteEtape(e) +
+      "<p>Voici le fil rouge des 2 jours : avec votre équipe, vous allez accompagner un <strong>lancement marketing D'Aucy</strong> de bout en bout. La plupart des ateliers s'appuieront sur ce brief — les prompts du carnet se personnaliseront automatiquement.</p>" +
+      "<p><strong>Choisissez votre cas :</strong></p><div class=\"cas-grille\" role=\"group\" aria-label=\"Choix du cas\">" +
+      Object.keys(CAS).map(k => {
+        const c = CAS[k];
+        return '<button type="button" class="cas-choix' + (etat.cas === k ? " choisi" : "") + '" data-cas="' + k + '" aria-pressed="' + (etat.cas === k) + '">' +
+          '<span class="embleme" aria-hidden="true">' + c.embleme + "</span><h3>" + echapper(c.nom) + "</h3><p>" + echapper(c.accroche) + "</p></button>";
+      }).join("") + "</div><div id=\"zone-brief\"></div>" +
+      '<div class="zone-boutons"><button class="btn btn-principal" id="btn-valider-cas" type="button"' + (etat.cas ? "" : " disabled") + ">Je pars avec ce brief →</button></div>" +
+      '<p class="confirmation" id="conf-2" role="status">Brief enregistré ! Il restera accessible en haut de chaque atelier.</p></section>';
+  }
+
+  /* ---------- ATELIERS & MISSIONS ---------- */
+  else if (ETAPES_MISSION.indexOf(n) !== -1) {
+    const m = MISSIONS.find(x => x.etape === n);
+    html = '<section class="carte">' +
+      '<div class="etape-entete"><span class="jour-chip">Jour ' + m.jour + '</span><span class="horaire">' + m.horaire + '</span><span class="duree">' + m.duree + "</span> " + chipsCdc(m.cdc) + "</div>" +
+      "<h2>" + echapper(m.titre) + "</h2>" +
+      '<div class="objectif"><strong>Objectif pédagogique :</strong> ' + echapper(m.objectif) + "</div>" +
+      rappelCas() +
+      "<h3>Votre consigne, pas à pas</h3><ul class=\"consigne\">" +
+      m.consigne.map(c => "<li>" + echapper(c) + "</li>").join("") + "</ul>";
+    if (m.prompt) {
+      html += '<div class="prompt-box"><div class="ptitre">' + echapper(m.promptTitre) + "</div>" +
+        '<button class="btn-copier" type="button" data-mission="' + m.id + '">Copier le prompt</button>' +
+        "<pre>" + preparerPrompt(m.prompt, true) + "</pre></div>" +
+        '<p class="note">Les éléments <mark style="background:var(--jaune);color:#23290f;border-radius:4px;padding:0 .25em">{entre accolades}</mark> restent à adapter ; le reste est déjà personnalisé pour votre brief.</p>';
+    }
+    html += m.livrables.map(l => champTexte(l.cle, l.label, l.type)).join("") +
+      casesAutoEval(m.id, m.criteres) +
+      '<div class="zone-boutons"><button class="btn btn-principal" type="button" data-valide-mission="' + n + '">💾 Enregistrer cet atelier</button></div>' +
+      '<p class="confirmation" id="conf-' + n + '" role="status">Atelier enregistré — bravo, la suite est déverrouillée !</p></section>';
+  }
+
+  /* ---------- 9. SYNTHÈSE J1 ---------- */
+  else if (n === 9) {
+    html = '<section class="carte">' + enteteEtape(e) +
+      "<p>Dernière ligne droite du Jour 1 : 5 questions pour ancrer l'essentiel (la correction s'affiche immédiatement), puis votre engagement pour demain.</p>" +
+      '<div id="zone-quiz"></div>' +
+      '<div class="score-final" id="score-final" style="display:none"></div>' +
+      champTexte("teste_demain", "« Ce que je teste dès demain matin » — une action concrète avec Gemini", "long", "C'est le post-it de fin de journée : une seule action, précise, réalisable.") +
+      champTexte("sequence_pref", "La séquence du jour qui vous a le plus apporté (et pourquoi)", "court") +
+      '<div class="zone-boutons">' +
+      '<button class="btn btn-secondaire" id="btn-rejouer" type="button">↺ Recommencer le quiz</button>' +
+      '<button class="btn btn-principal" id="btn-valider-quiz" type="button" disabled>Clore le Jour 1 →</button></div>' +
+      '<p class="confirmation" id="conf-quiz" role="status">Jour 1 enregistré — rendez-vous demain pour le marketing opérationnel ! 🌙</p></section>';
+    zone.innerHTML = html;
+    rendreQuiz(QUIZ_J1FIN, "quizFin", 9);
+    return;
+  }
+
+  /* ---------- 10. RÉVEIL J2 ---------- */
+  else if (n === 10) {
+    html = '<section class="carte">' + enteteEtape(e) +
+      "<p>Bon retour ! Avant le marketing opérationnel, réactivons le Jour 1 : votre équipe affronte l'autre dans la battle. Trouvez d'abord votre nom d'équipe et slogan avec Gemini, puis répondez au quiz — correction immédiate.</p>" +
+      champTexte("slogan_j2", "Nom + slogan de votre équipe générés avec Gemini ce matin", "court") +
+      '<div id="zone-quiz"></div>' +
+      '<div class="score-final" id="score-final" style="display:none"></div>' +
+      '<div class="zone-boutons">' +
+      '<button class="btn btn-secondaire" id="btn-rejouer" type="button">↺ Recommencer le quiz</button>' +
+      '<button class="btn btn-principal" id="btn-valider-quiz" type="button" disabled>Valider et attaquer le Jour 2 →</button></div>' +
+      '<p class="confirmation" id="conf-quiz" role="status">Quiz enregistré — direction le SEO/GEO et la création !</p></section>';
+    zone.innerHTML = html;
+    rendreQuiz(QUIZ_REVEIL, "quizReveil", 10);
+    return;
+  }
+
+  /* ---------- 19. VEILLE & GESTION DE PROJET ---------- */
+  else if (n === 19) {
+    html = '<section class="carte">' + enteteEtape(e) +
+      '<div class="etape-entete">' + chipsCdc(["CDC 7", "CDC 8"]) + "</div>" +
+      "<p>Deux réflexes à installer pour durer : une <strong>veille personnalisée</strong> et un <strong>assistant de projet</strong> — le tout dans l'écosystème Gemini.</p>" +
+      "<h3>Votre routine de veille</h3><ul class=\"consigne\">" +
+      "<li>Lancez un <strong>Gemini Deep Research</strong> sur un thème de votre poste (ex. « tendances légumes appertisés France 2026 »).</li>" +
+      "<li>Demandez à Gemini de structurer votre veille hebdomadaire : sources, fréquence, format de restitution.</li>" +
+      "<li>Notez ci-dessous la routine que vous adoptez.</li></ul>" +
+      champTexte("veille_theme", "Votre thème de veille prioritaire", "court") +
+      champTexte("veille_routine", "Votre routine de veille (fréquence, outil, format de restitution, destinataires)", "long") +
+      "<h3>Gemini comme assistant de projet</h3><ul class=\"consigne\">" +
+      "<li><strong>Gemini dans Meet</strong> : notes automatiques et relevés de décisions de vos réunions.</li>" +
+      "<li><strong>Gemini dans Docs / Sheets</strong> : suivi des tâches, rétroplanning de lancement produit.</li></ul>" +
+      champTexte("projet_usage", "Le premier usage « gestion de projet » que vous mettrez en place dans l'équipe", "long") +
+      '<div class="zone-boutons"><button class="btn btn-principal" type="button" data-valide-simple="19">💾 Enregistrer mes routines</button></div>' +
+      '<p class="confirmation" id="conf-19" role="status">Routines enregistrées — dernière étape : votre plan d\'action !</p></section>';
+  }
+
+  /* ---------- 20. PLAN D'ACTION 30/60/90 + ÉVALUATIONS ---------- */
+  else if (n === 20) {
+    const outils = ["Gemini App", "Gemini dans Workspace (Docs, Sheets, Slides, Gmail)", "Imagen / Nano Banana", "Google Vids / Veo", "Google Stitch", "Gemini Deep Research", "Gemini Canvas / Gems"];
+    const ligne = (i, horizon, exemple) =>
+      '<div class="question"><p class="qtitre">' + horizon + "</p>" +
+      champTexte("plan" + i + "_engagement", "Mon engagement concret", "long").replace("<textarea", '<textarea style="min-height:70px" placeholder="' + echapper(exemple) + '"') +
+      '<label for="champ_plan' + i + '_outil">Outil principal</label>' +
+      '<select id="champ_plan' + i + '_outil" data-cle="plan' + i + '_outil">' +
+      '<option value="">— Choisir —</option>' +
+      outils.map(o => '<option value="' + echapper(o) + '"' + (etat.champs["plan" + i + "_outil"] === o ? " selected" : "") + ">" + echapper(o) + "</option>").join("") +
+      "</select>" +
+      champTexte("plan" + i + "_indicateur", "Mon indicateur de réussite", "court", "Comment saurez-vous que c'est fait ? (ex. fiche validée, temps mesuré, tâche internalisée…)") +
+      "</div>";
+    html = '<section class="carte">' + enteteEtape(e) +
+      "<p>Pour que ces 2 jours produisent leurs effets, fixez vos engagements à <strong>30, 60 et 90 jours</strong> — ce plan servira de support à la relance à J+60.</p>" +
+      ligne(1, "À 30 jours — je teste", "Ex. : réécrire 3 fiches produit avec le mega-prompt SEO/GEO et les soumettre à ma responsable") +
+      ligne(2, "À 60 jours — j'approfondis", "Ex. : industrialiser l'analyse mensuelle du panel avec Gemini dans Sheets et mesurer le temps gagné") +
+      ligne(3, "À 90 jours — j'internalise", "Ex. : produire en interne les visuels de lots promo aujourd'hui sous-traités") +
+      champTexte("plan_binome", "Mon binôme de redevabilité dans l'équipe", "court") +
+      '<label for="champ_plan_date">Date de notre premier point d\'étape</label>' +
+      '<input type="date" id="champ_plan_date" data-cle="plan_date" value="' + echapper(etat.champs["plan_date"] || "") + '">' +
+      "<h3>Évaluations de fin de formation (Qualiopi)</h3>" +
+      '<div class="objectif"><strong>Deux évaluations obligatoires :</strong> le quiz d\'évaluation des acquis (15 questions, 70 % requis) et le questionnaire de satisfaction. Le formateur vous communique les liens.</div>' +
+      champTexte("lien_quiz", "Confirmation du quiz d'acquis (score ou note « fait »)", "court") +
+      champTexte("lien_satisfaction", "Confirmation du questionnaire de satisfaction", "court") +
+      champTexte("objectif_atteint", "Pour finir : vos attentes du Jour 1 sont-elles satisfaites ? En une phrase.", "long") +
+      '<div class="zone-boutons"><button class="btn btn-principal" type="button" id="btn-terminer">🥕 Terminer ma formation</button>' +
+      '<button class="btn btn-secondaire" type="button" id="btn-export-2">🖨️ Exporter / imprimer mon carnet</button></div>' +
+      '<div class="banniere-fin" id="banniere-fin" style="display:' + (etat.done[20] ? "block" : "none") + '">' +
+      '<div class="gros">🥕 Formation accomplie, ' + echapper(etat.prenom || "marketeur augmenté") + " !</div>" +
+      "<p>Votre carnet est complet. Exportez-le, gardez-le précieusement… et rendez-vous à J+60 pour le point sur votre plan d'action. Merci pour votre engagement !</p>" +
+      '<div class="zone-boutons" style="justify-content:center"><button class="btn btn-export" type="button" id="btn-export-3" style="background:#fff;color:var(--vert-fonce)">🖨️ Exporter mon carnet maintenant</button></div></div></section>';
+  }
+
+  zone.innerHTML = html;
+  brancherEvenements(n);
+}
+
+/* ==========================================================================
+   QUIZ — rendu et logique (feedback immédiat, score, rejouer)
+   ========================================================================== */
+function rendreQuiz(quiz, cleQuiz, etapeNum) {
+  const zoneQ = $("#zone-quiz");
+  zoneQ.innerHTML = quiz.map((q, i) => {
+    const repondu = etat[cleQuiz][i];
+    return '<div class="question" data-q="' + i + '"><p class="qtitre">' + (i + 1) + ". " + echapper(q.q) + "</p>" +
+      '<div class="reponses" role="group" aria-label="Réponses question ' + (i + 1) + '">' +
+      q.r.map((r, j) => {
+        let cls = "";
+        if (repondu != null) {
+          if (j === q.bonne) cls = "bonne";
+          else if (j === repondu) cls = "mauvaise";
+        }
+        return '<button type="button" class="' + cls + '" data-q="' + i + '" data-r="' + j + '"' + (repondu != null ? " disabled" : "") + ">" + echapper(r) + "</button>";
+      }).join("") + "</div>" +
+      '<p class="feedback ' + (repondu != null ? "visible " + (repondu === q.bonne ? "vrai" : "faux") : "") + '" id="fb-' + i + '" role="status">' +
+      (repondu != null ? (repondu === q.bonne ? "✅ Exact ! " : "❌ Pas tout à fait. ") + echapper(q.fb) : "") + "</p></div>";
+  }).join("");
+
+  function majScore() {
+    const reponses = Object.keys(etat[cleQuiz]).length;
+    if (reponses === quiz.length) {
+      let score = 0;
+      quiz.forEach((q, i) => { if (etat[cleQuiz][i] === q.bonne) score++; });
+      const sf = $("#score-final");
+      sf.style.display = "block";
+      const com = score === quiz.length ? "Sans faute, impressionnant !" :
+        score >= quiz.length * 0.7 ? "Très solide — les bases sont là." :
+        "L'essentiel est de réactiver : relisez les corrections, elles resserviront toute la journée.";
+      sf.textContent = "Votre score : " + score + " / " + quiz.length + " — " + com;
+      $("#btn-valider-quiz").disabled = false;
+    }
+  }
+  majScore();
+
+  zoneQ.addEventListener("click", ev => {
+    const b = ev.target.closest("button[data-r]");
+    if (!b || b.disabled) return;
+    const i = +b.dataset.q, j = +b.dataset.r;
+    etat[cleQuiz][i] = j;
+    sauvegarder();
+    const bloc = b.closest(".question");
+    $$("button[data-r]", bloc).forEach(x => {
+      x.disabled = true;
+      const xj = +x.dataset.r;
+      if (xj === quiz[i].bonne) x.classList.add("bonne");
+      else if (xj === j) x.classList.add("mauvaise");
+    });
+    const fb = $("#fb-" + i);
+    fb.classList.add("visible", j === quiz[i].bonne ? "vrai" : "faux");
+    fb.textContent = (j === quiz[i].bonne ? "✅ Exact ! " : "❌ Pas tout à fait. ") + quiz[i].fb;
+    majScore();
+  });
+
+  $("#btn-rejouer").addEventListener("click", () => {
+    etat[cleQuiz] = {};
+    sauvegarder();
+    rendre(etapeNum);
+  });
+  $("#btn-valider-quiz").addEventListener("click", () => {
+    validerEtape(etapeNum, "conf-quiz");
+  });
+}
+
+/* ==========================================================================
+   BRANCHEMENT DES ÉVÉNEMENTS PAR ÉTAPE
+   ========================================================================== */
+function brancherEvenements(n) {
+  const zone = $("#contenu");
+
+  /* Étape 0 : démarrage */
+  const bd = $("#btn-demarrer");
+  if (bd) bd.addEventListener("click", () => {
+    if (!etat.prenom || !etat.equipe) {
+      alert("Indiquez votre prénom et le nom de votre équipe pour commencer — c'est votre carnet, il doit porter vos couleurs !");
+      return;
+    }
+    validerEtape(0, "conf-0");
+    setTimeout(() => afficherEtape(1), 600);
+  });
+
+  /* Étape 2 : choix du cas */
+  $$(".cas-choix", zone).forEach(b => b.addEventListener("click", () => {
+    etat.cas = b.dataset.cas;
+    sauvegarder();
+    $$(".cas-choix", zone).forEach(x => { x.classList.toggle("choisi", x === b); x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    $("#btn-valider-cas").disabled = false;
+    afficherBrief();
+  }));
+  function afficherBrief() {
+    const zb = $("#zone-brief"); if (!zb) return;
+    const c = CAS[etat.cas];
+    zb.innerHTML = !c ? "" : '<div class="brief-complet"><h3>' + c.embleme + " " + echapper(c.nom) + " — " + echapper(c.accroche) + "</h3><dl>" +
+      "<dt>Contexte</dt><dd>" + echapper(c.contexte) + "</dd>" +
+      "<dt>Cible</dt><dd>" + echapper(c.cible) + "</dd>" +
+      "<dt>Objectif</dt><dd>" + echapper(c.objectif) + "</dd>" +
+      "<dt>Ton</dt><dd>" + echapper(c.ton) + "</dd>" +
+      "<dt>Ressources</dt><dd>" + echapper(c.ressources) + "</dd></dl></div>";
+  }
+  if (n === 2) afficherBrief();
+  const bvc = $("#btn-valider-cas");
+  if (bvc) bvc.addEventListener("click", () => { if (etat.cas) validerEtape(2, "conf-2"); });
+
+  /* Boutons « copier le prompt » */
+  $$(".btn-copier", zone).forEach(b => b.addEventListener("click", () => {
+    const m = MISSIONS.find(x => x.id === b.dataset.mission);
+    if (m) copierTexte(preparerPrompt(m.prompt, false), b);
+  }));
+
+  /* Validation d'un atelier : au moins le premier livrable doit être rempli. */
+  $$("[data-valide-mission]", zone).forEach(b => b.addEventListener("click", () => {
+    const num = +b.dataset.valideMission;
+    const m = MISSIONS.find(x => x.etape === num);
+    const premier = etat.champs[m.livrables[0].cle];
+    if (!premier || !premier.trim()) {
+      alert("Renseignez d'abord votre livrable principal : c'est lui qui nourrira votre plan d'action !");
+      return;
+    }
+    validerEtape(num, "conf-" + num);
+  }));
+
+  /* Validations simples */
+  $$("[data-valide-simple]", zone).forEach(b => b.addEventListener("click", () => {
+    const num = +b.dataset.valideSimple;
+    validerEtape(num, "conf-" + num);
+  }));
+
+  /* Étape 20 : clôture */
+  const bt = $("#btn-terminer");
+  if (bt) bt.addEventListener("click", () => {
+    validerEtape(20);
+    $("#banniere-fin").style.display = "block";
+    $("#banniere-fin").scrollIntoView({ behavior: "smooth" });
+  });
+
+  ["btn-export-2", "btn-export-3"].forEach(id => { const b2 = $("#" + id); if (b2) b2.addEventListener("click", exporterCarnet); });
+}
+
+/* ==========================================================================
+   EXPORT / IMPRESSION — récapitulatif propre de tout le carnet
+   ========================================================================== */
+function exporterCarnet() {
+  const z = $("#zone-impression");
+  const c = CAS[etat.cas];
+  const date = new Date().toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  const logoEl = document.getElementById("logo-eureden");
+  let h = (logoEl ? '<img src="' + logoEl.src + '" alt="Logo Eureden" style="height:42px;margin-bottom:8pt">' : "") +
+    "<h1>Carnet de bord — Formation IA &amp; Marketing · Eureden / D'Aucy France</h1>" +
+    '<p class="meta">« L\'IA au service du Marketing » (Cegos 9585, adaptation Eureden) — ' + echapper(date) + "<br>" +
+    "Apprenant·e : <strong>" + echapper(etat.prenom || "—") + "</strong> · Équipe : <strong>" + echapper(etat.equipe || "—") + "</strong>" +
+    (c ? " · Brief : <strong>" + echapper(c.nom) + "</strong>" : "") + " · Progression : " + nbEtapesFaites() + "/" + ETAPES.length + " étapes</p>";
+
+  function bloc(titre, contenu) {
+    if (!contenu || !String(contenu).trim()) return "";
+    return "<h3>" + echapper(titre) + '</h3><div class="bloc-livrable">' + echapper(contenu) + "</div>";
+  }
+  function scoreQuiz(quiz, reponses) {
+    const nb = Object.keys(reponses).length;
+    if (!nb) return "Non réalisé.";
+    let s = 0; quiz.forEach((q, i) => { if (reponses[i] === q.bonne) s++; });
+    return "Score : " + s + " / " + quiz.length + (nb < quiz.length ? " (quiz incomplet)" : "");
+  }
+
+  /* Positionnement */
+  let pos = "";
+  if (etat.champs["niveau"]) pos += "<p>Niveau de départ : <strong>" + echapper(etat.champs["niveau"]) + "</strong></p>";
+  ["attente1", "attente2", "attente3"].forEach((k, i) => { if (etat.champs[k]) pos += "<p>Attente " + (i + 1) + " : " + echapper(etat.champs[k]) + "</p>"; });
+  pos += bloc("Usage actuel de Gemini", etat.champs["usage_actuel"]);
+  if (pos) h += "<h2>Positionnement (Jour 1)</h2>" + pos;
+
+  if (c) h += "<h2>Mon brief fil rouge</h2><p><strong>" + echapper(c.nom) + "</strong> — " + echapper(c.accroche) + "</p>";
+
+  /* Ateliers & missions */
+  MISSIONS.forEach(m => {
+    let corps = "";
+    m.livrables.forEach(l => { corps += bloc(l.label, etat.champs[l.cle]); });
+    const coches = m.criteres.filter((cr, i) => etat.champs[m.id + "_crit" + i]);
+    if (coches.length) corps += "<h3>Auto-évaluation validée</h3><ul>" + coches.map(x => "<li>" + echapper(x) + "</li>").join("") + "</ul>";
+    if (corps) h += "<h2>" + echapper(m.titre) + " (" + m.horaire + (m.cdc && m.cdc.length ? " · " + m.cdc.join(", ") : "") + ")</h2>" + corps;
+  });
+
+  /* Synthèse J1 */
+  let synj1 = "<p>" + scoreQuiz(QUIZ_J1FIN, etat.quizFin) + "</p>" +
+    bloc("Ce que je teste dès demain", etat.champs["teste_demain"]) +
+    bloc("Séquence préférée du Jour 1", etat.champs["sequence_pref"]);
+  h += "<h2>Synthèse &amp; ancrage Jour 1 (17h00)</h2>" + synj1;
+
+  /* Réveil J2 */
+  h += "<h2>Réveil pédagogique Jour 2 (09h00)</h2><p>" + scoreQuiz(QUIZ_REVEIL, etat.quizReveil) + "</p>" +
+    bloc("Nom + slogan d'équipe (généré avec Gemini)", etat.champs["slogan_j2"]);
+
+  /* Veille & projet */
+  let veille = bloc("Thème de veille prioritaire", etat.champs["veille_theme"]) +
+    bloc("Routine de veille", etat.champs["veille_routine"]) +
+    bloc("Premier usage gestion de projet", etat.champs["projet_usage"]);
+  if (veille) h += "<h2>Veille IA &amp; gestion de projet (CDC 7-8)</h2>" + veille;
+
+  /* Plan d'action */
+  let plan = "";
+  [["1", "À 30 jours — je teste"], ["2", "À 60 jours — j'approfondis"], ["3", "À 90 jours — j'internalise"]].forEach(p => {
+    const eng = etat.champs["plan" + p[0] + "_engagement"];
+    if (eng && eng.trim()) {
+      plan += "<h3>" + p[1] + "</h3><div class=\"bloc-livrable\">" + echapper(eng) +
+        "\nOutil : " + echapper(etat.champs["plan" + p[0] + "_outil"] || "—") +
+        "\nIndicateur : " + echapper(etat.champs["plan" + p[0] + "_indicateur"] || "—") + "</div>";
+    }
+  });
+  if (etat.champs["plan_binome"] || etat.champs["plan_date"]) {
+    plan += "<p>Binôme de redevabilité : <strong>" + echapper(etat.champs["plan_binome"] || "—") +
+      "</strong> · Premier point d'étape : <strong>" + echapper(etat.champs["plan_date"] || "—") + "</strong></p>";
+  }
+  if (plan) h += "<h2>Plan d'action 30 / 60 / 90 jours</h2>" + plan;
+
+  let evalq = bloc("Quiz d'évaluation des acquis", etat.champs["lien_quiz"]) +
+    bloc("Questionnaire de satisfaction", etat.champs["lien_satisfaction"]) +
+    bloc("Mes attentes sont-elles satisfaites ?", etat.champs["objectif_atteint"]);
+  if (evalq) h += "<h2>Évaluations Qualiopi</h2>" + evalq;
+
+  h += '<p class="meta">Document généré localement par le carnet de bord numérique — aucune donnée n\'a quitté ce navigateur (RGPD). Formation animée dans le respect des règles de la cellule IA Eureden.</p>';
+  z.innerHTML = h;
+  window.print();
+}
+
+/* ==========================================================================
+   INITIALISATION
+   ========================================================================== */
+(function init() {
+  etat.champs["prenom_tmp"] = etat.prenom;
+  etat.champs["equipe_tmp"] = etat.equipe;
+  $("#btn-export").addEventListener("click", exporterCarnet);
+
+  /* Sauvegarde automatique de TOUTES les saisies (délégation attachée UNE fois). */
+  $("#contenu").addEventListener("input", ev => {
+    const el = ev.target;
+    if (!el.dataset || !el.dataset.cle) return;
+    etat.champs[el.dataset.cle] = el.type === "checkbox" ? (el.checked ? "1" : "") : el.value;
+    if (el.dataset.cle === "prenom_tmp") etat.prenom = el.value.trim();
+    if (el.dataset.cle === "equipe_tmp") etat.equipe = el.value.trim();
+    sauvegarder();
+  });
+  majProgression();
+  majNav();
+  rendre(etapeCourante);
+})();
+</script>
+</body>
+</html>
